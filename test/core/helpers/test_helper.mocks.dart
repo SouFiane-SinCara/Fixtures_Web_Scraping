@@ -9,6 +9,8 @@ import 'dart:typed_data' as _i10;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:fixtures_app/core/failures/failures.dart' as _i6;
+import 'package:fixtures_app/features/fixtures/data/data_sources/fixtures_remote_data_src.dart'
+    as _i11;
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart'
     as _i7;
 import 'package:fixtures_app/features/fixtures/domain/repositories/fixtures_repository.dart'
@@ -326,4 +328,25 @@ class MockClient extends _i1.Mock implements _i3.Client {
         ),
         returnValueForMissingStub: null,
       );
+}
+
+/// A class which mocks [FixturesRemoteDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFixturesRemoteDataSource extends _i1.Mock
+    implements _i11.FixturesRemoteDataSource {
+  MockFixturesRemoteDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<List<_i7.Fixture>> getFixtures({String? date}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getFixtures,
+          [],
+          {#date: date},
+        ),
+        returnValue: _i5.Future<List<_i7.Fixture>>.value(<_i7.Fixture>[]),
+      ) as _i5.Future<List<_i7.Fixture>>);
 }
