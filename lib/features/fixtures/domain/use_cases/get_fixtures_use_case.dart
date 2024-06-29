@@ -7,7 +7,7 @@ class GetFixturesUseCase {
 
   GetFixturesUseCase({required this.fixturesRepository});
 
-  FutureEither<List<Fixture>> call({String? date}) {
-    throw UnimplementedError();
+  FutureEither<List<Fixture>> call({required String date}) {
+    return fixturesRepository.getFixtures(date: date);
   }
 }

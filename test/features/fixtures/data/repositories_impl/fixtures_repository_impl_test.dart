@@ -7,6 +7,7 @@ import 'package:fixtures_app/features/fixtures/domain/repositories/fixtures_repo
 import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:fixtures_app/core/exceptions/exceptions.dart';
 
 import '../../../../core/helpers/test_helper.mocks.dart';
 
@@ -46,37 +47,39 @@ void main() {
             awayScore: '2')
       ];
       final expectedSuccess = Right(fixturesTest);
+      String testDate = '2024-06-28';
       test(
         'should return right List of fixture',
         () async {
           //AAA
           //arrange
-          when(mockFixturesRemoteDataSource.getFixtures()).thenAnswer(
+          when(mockFixturesRemoteDataSource.getFixtures(date: testDate))
+              .thenAnswer(
             (_) async {
               return fixturesTest;
             },
           );
           //act
-          final result = await fixturesRepository.getFixtures();
+          final result = await fixturesRepository.getFixtures(date: testDate);
           //assert
           expect(result, equals(expectedSuccess));
         },
       );
-    const expectedFailure = Left(Failure);
       test(
         'should return left failure',
         () async {
           //AAA
           //arrange
-          when(mockFixturesRemoteDataSource.getFixtures()).thenAnswer(
+          when(mockFixturesRemoteDataSource.getFixtures(date: testDate))
+              .thenAnswer(
             (_) async {
-              throw Exception();
+              throw ServerException();
             },
           );
           //act
-          final result = await fixturesRepository.getFixtures();
+          final result = await fixturesRepository.getFixtures(date: testDate);
           //assert
-          expect(result, equals(expectedFailure));
+          expect(result, isA<Left>());
         },
       );
     },

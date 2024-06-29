@@ -28,10 +28,10 @@ void main() {
           //AAA
           //arrange
           String response =
-              File('test/core/constants/fixture.data.html').readAsStringSync();
+              File('test/core/constants/fixture_data.html').readAsStringSync();
           Element testFixtureHtml = Element.html(response);
           //act
-          // FixtureModel.fromHtml();
+          FixtureModel.fromHtml(testFixtureHtml, testDate, testLeague);
           FixtureModel result =
               FixtureModel.fromHtml(testFixtureHtml, testDate, testLeague);
 

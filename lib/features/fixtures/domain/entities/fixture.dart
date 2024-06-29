@@ -22,7 +22,7 @@ class Fixture extends Equatable {
     required this.awayTeamLogo,
     required this.awayScore,
   });
-  
+
   @override
   List<Object> get props {
     return [
