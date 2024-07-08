@@ -2,16 +2,18 @@ import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
 import 'package:html/dom.dart';
 
 class FixtureModel extends Fixture {
-  const FixtureModel(
-      {required super.homeTeamName,
-      required super.homeTeamLogo,
-      required super.homeScore,
-      required super.time,
-      required super.league,
-      required super.date,
-      required super.awayTeamName,
-      required super.awayTeamLogo,
-      required super.awayScore});
+  const FixtureModel({
+    required super.homeTeamName,
+    required super.homeTeamLogo,
+    required super.homeScore,
+    required super.time,
+    required super.league,
+    required super.date,
+    required super.awayTeamName,
+    required super.awayTeamLogo,
+    required super.awayScore,
+    required super.moreInfoLink,
+  });
   factory FixtureModel.fromHtml(Element html, String date, String nameLeague) {
     final String homeTeamName;
     String? homeTeamLogo;
@@ -19,6 +21,7 @@ class FixtureModel extends Fixture {
     final String? time;
     final String league;
     final String awayTeamName;
+    final String moreInfoLink;
     String? awayTeamLogo;
     final String awayScore;
     final Element? getTime = html.querySelector(
@@ -90,12 +93,15 @@ class FixtureModel extends Fixture {
       awayTeamLogo = awayImagesSrc[imagesSrcIndex].attributes['srcset'];
       break;
     }
+    moreInfoLink = html.querySelector('a')!.attributes!['href']!;
+   
     return FixtureModel(
         homeTeamName: homeTeamName,
         homeTeamLogo: homeTeamLogo!,
         homeScore: homeScore,
         time: time!,
         league: league,
+        moreInfoLink: moreInfoLink,
         date: date,
         awayTeamName: awayTeamName,
         awayTeamLogo: awayTeamLogo!,

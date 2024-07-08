@@ -23,6 +23,7 @@ void main() {
           homeTeamName: "Manchester United",
           homeTeamLogo: "man_utd_logo.png",
           homeScore: '2',
+          moreInfoLink: '/en/match/2515122',
           time: "90'",
           league: "Premier League",
           date: "2024-06-26",
@@ -32,6 +33,7 @@ void main() {
       Fixture(
           homeTeamName: "Real Madrid",
           homeTeamLogo: "real_madrid_logo.png",
+          moreInfoLink: '/en/match/2509332',
           homeScore: '3',
           time: "FT",
           league: "La Liga",

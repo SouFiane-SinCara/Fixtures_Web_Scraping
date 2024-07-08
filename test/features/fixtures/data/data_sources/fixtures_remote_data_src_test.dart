@@ -20,9 +20,8 @@ void main() {
           FixturesRemoteDataSourceWebScrapping(httpClient: mockClient);
     });
     String testDate = '2024-06-01';
-    String dataTest =
-        File('test/core/constants/response_data.html').readAsStringSync();
-    final successResponse = http.Response('{"data": "sample"}', 200);
+
+    final successResponse = http.Response('data:{}', 200);
     test('should return fixtures models', () async {
       //AAA
       //arrange
@@ -41,7 +40,6 @@ void main() {
       when(mockClient.get(Uri.parse(fixturesUrl))).thenAnswer((_) async {
         return errorResponse;
       });
-
       // act then assert
       expect(() async {
         await fixturesRemoteDataSource.getFixtures(date: testDate);

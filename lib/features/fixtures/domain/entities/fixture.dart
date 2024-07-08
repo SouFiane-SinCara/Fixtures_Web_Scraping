@@ -10,6 +10,7 @@ class Fixture extends Equatable {
   final String awayTeamName;
   final String awayTeamLogo;
   final String awayScore;
+  final String moreInfoLink;
 
   const Fixture({
     required this.homeTeamName,
@@ -21,6 +22,7 @@ class Fixture extends Equatable {
     required this.awayTeamName,
     required this.awayTeamLogo,
     required this.awayScore,
+    required this.moreInfoLink
   });
 
   @override
@@ -31,6 +33,7 @@ class Fixture extends Equatable {
       homeScore,
       time,
       league,
+      moreInfoLink,
       date,
       awayTeamName,
       awayTeamLogo,
