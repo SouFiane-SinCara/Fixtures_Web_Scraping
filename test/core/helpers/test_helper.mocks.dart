@@ -4,20 +4,22 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i5;
-import 'dart:convert' as _i8;
-import 'dart:typed_data' as _i10;
+import 'dart:convert' as _i9;
+import 'dart:typed_data' as _i11;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:fixtures_app/core/failures/failures.dart' as _i6;
 import 'package:fixtures_app/features/fixtures/data/data_sources/fixtures_remote_data_src.dart'
-    as _i11;
+    as _i12;
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart'
     as _i7;
+import 'package:fixtures_app/features/fixtures/domain/entities/fixture_details.dart'
+    as _i8;
 import 'package:fixtures_app/features/fixtures/domain/repositories/fixtures_repository.dart'
     as _i4;
 import 'package:http/http.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i9;
+import 'package:mockito/src/dummies.dart' as _i10;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -74,7 +76,7 @@ class MockFixturesRepository extends _i1.Mock
 
   @override
   _i5.Future<_i2.Either<_i6.Failure, List<_i7.Fixture>>> getFixtures(
-          {String? date}) =>
+          {required String? date}) =>
       (super.noSuchMethod(
         Invocation.method(
           #getFixtures,
@@ -92,6 +94,27 @@ class MockFixturesRepository extends _i1.Mock
           ),
         )),
       ) as _i5.Future<_i2.Either<_i6.Failure, List<_i7.Fixture>>>);
+
+  @override
+  _i5.Future<_i2.Either<_i6.Failure, _i8.FixtureDetails>> getFixtureDetails(
+          {required String? fixtureDetailsUrl}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getFixtureDetails,
+          [],
+          {#fixtureDetailsUrl: fixtureDetailsUrl},
+        ),
+        returnValue:
+            _i5.Future<_i2.Either<_i6.Failure, _i8.FixtureDetails>>.value(
+                _FakeEither_0<_i6.Failure, _i8.FixtureDetails>(
+          this,
+          Invocation.method(
+            #getFixtureDetails,
+            [],
+            {#fixtureDetailsUrl: fixtureDetailsUrl},
+          ),
+        )),
+      ) as _i5.Future<_i2.Either<_i6.Failure, _i8.FixtureDetails>>);
 }
 
 /// A class which mocks [Client].
@@ -149,7 +172,7 @@ class MockClient extends _i1.Mock implements _i3.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i8.Encoding? encoding,
+    _i9.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -180,7 +203,7 @@ class MockClient extends _i1.Mock implements _i3.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i8.Encoding? encoding,
+    _i9.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -211,7 +234,7 @@ class MockClient extends _i1.Mock implements _i3.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i8.Encoding? encoding,
+    _i9.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -242,7 +265,7 @@ class MockClient extends _i1.Mock implements _i3.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i8.Encoding? encoding,
+    _i9.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -279,7 +302,7 @@ class MockClient extends _i1.Mock implements _i3.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i5.Future<String>.value(_i9.dummyValue<String>(
+        returnValue: _i5.Future<String>.value(_i10.dummyValue<String>(
           this,
           Invocation.method(
             #read,
@@ -290,7 +313,7 @@ class MockClient extends _i1.Mock implements _i3.Client {
       ) as _i5.Future<String>);
 
   @override
-  _i5.Future<_i10.Uint8List> readBytes(
+  _i5.Future<_i11.Uint8List> readBytes(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -300,8 +323,8 @@ class MockClient extends _i1.Mock implements _i3.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i5.Future<_i10.Uint8List>.value(_i10.Uint8List(0)),
-      ) as _i5.Future<_i10.Uint8List>);
+        returnValue: _i5.Future<_i11.Uint8List>.value(_i11.Uint8List(0)),
+      ) as _i5.Future<_i11.Uint8List>);
 
   @override
   _i5.Future<_i3.StreamedResponse> send(_i3.BaseRequest? request) =>
@@ -334,13 +357,13 @@ class MockClient extends _i1.Mock implements _i3.Client {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockFixturesRemoteDataSource extends _i1.Mock
-    implements _i11.FixturesRemoteDataSource {
+    implements _i12.FixturesRemoteDataSource {
   MockFixturesRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<List<_i7.Fixture>> getFixtures({String? date}) =>
+  _i5.Future<List<_i7.Fixture>> getFixtures({required String? date}) =>
       (super.noSuchMethod(
         Invocation.method(
           #getFixtures,

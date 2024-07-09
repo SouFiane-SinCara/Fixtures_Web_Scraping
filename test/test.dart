@@ -6,6 +6,7 @@ import 'core/constants/web_src.dart';
 
 Future<void> main() async {
   final response = await http.get(Uri.parse(fixturesUrl));
+  
   print(response.body);
   if (response.statusCode == 200) {
     Document document = htmlParser.parse(response.body);

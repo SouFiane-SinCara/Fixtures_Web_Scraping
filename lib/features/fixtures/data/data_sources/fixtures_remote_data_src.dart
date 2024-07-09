@@ -1,5 +1,6 @@
 import 'package:fixtures_app/core/constants/web_const.dart';
 import 'package:fixtures_app/features/fixtures/data/models/fixture_model.dart';
+import 'package:fixtures_app/features/fixtures/domain/entities/fixture_details.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as htmlParser;
 import 'package:html/dom.dart';
@@ -8,6 +9,7 @@ import 'package:fixtures_app/core/exceptions/exceptions.dart';
 
 abstract class FixturesRemoteDataSource {
   Future<List<Fixture>> getFixtures({required String date});
+  Future<FixtureDetails> getFixtureDetails({required String fixtureDetailsUrl});
 }
 
 class FixturesRemoteDataSourceWebScrapping extends FixturesRemoteDataSource {
@@ -49,5 +51,11 @@ class FixturesRemoteDataSourceWebScrapping extends FixturesRemoteDataSource {
     } else {
       throw ServerException();
     }
+  }
+  
+  @override
+  Future<FixtureDetails> getFixtureDetails({required String fixtureDetailsUrl}) {
+    // TODO: implement getFixtureDetails
+    throw UnimplementedError();
   }
 }

@@ -51,7 +51,7 @@ void main() {
       //act
       final result = await getFixturesUseCase(date: testDate);
       //assert
-      expect(result, Right(fixturesTest));
+      expect(result, equals(Right(fixturesTest)));
     });
     final failure = ServerFailure();
     test("should return a failure", () async {
@@ -62,7 +62,7 @@ void main() {
       //act
       final result = await getFixturesUseCase(date: testDate);
       //assert
-      expect(result, Left(failure));
+      expect(result, equals(Left(failure)));
     });
   });
 }

@@ -5,6 +5,7 @@ import 'package:fixtures_app/core/failures/failures.dart';
 import 'package:fixtures_app/core/helpers/data_types.dart';
 import 'package:fixtures_app/features/fixtures/data/data_sources/fixtures_remote_data_src.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
+import 'package:fixtures_app/features/fixtures/domain/entities/fixture_details.dart';
 import 'package:fixtures_app/features/fixtures/domain/repositories/fixtures_repository.dart';
 
 class FixturesRepositoryImpl extends FixturesRepository {
@@ -23,5 +24,11 @@ class FixturesRepositoryImpl extends FixturesRepository {
     } on Exception {
       return Left(ServerFailure());
     }
+  }
+
+  @override
+  FutureEither<FixtureDetails> getFixtureDetails({required String fixtureDetailsUrl}) {
+    // TODO: implement getFixtureDetails
+    throw UnimplementedError();
   }
 }

@@ -11,7 +11,6 @@ class Fixture extends Equatable {
   final String awayTeamLogo;
   final String awayScore;
   final String moreInfoLink;
-
   const Fixture({
     required this.homeTeamName,
     required this.homeTeamLogo,
@@ -24,7 +23,6 @@ class Fixture extends Equatable {
     required this.awayScore,
     required this.moreInfoLink
   });
-
   @override
   List<Object> get props {
     return [
