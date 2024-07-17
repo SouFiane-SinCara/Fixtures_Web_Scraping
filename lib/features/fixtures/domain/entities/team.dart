@@ -8,6 +8,14 @@ class Team extends Equatable {
     required this.name,
     required this.imageUrl,
   });
+
   @override
   List<Object?> get props => [name, imageUrl];
+
+  String printDetails() {
+    return '''
+      name: $name
+      imageUrl: $imageUrl
+      ''';
+  }
 }

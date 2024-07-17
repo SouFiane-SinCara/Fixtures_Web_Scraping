@@ -1,5 +1,7 @@
 {
     "cSpell.words": [
+        "kotree",
         "srcset"
-    ]
+    ],
+    "cmake.ignoreCMakeListsMissing": true
 }

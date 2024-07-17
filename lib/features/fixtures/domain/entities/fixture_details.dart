@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-
-import 'package:fixtures_app/features/fixtures/domain/entities/knockout.dart';
+import 'package:fixtures_app/features/fixtures/domain/entities/knockout_phase.dart';
+import 'package:fixtures_app/features/fixtures/domain/entities/standing.dart';
+import 'package:fixtures_app/features/fixtures/domain/entities/statistic.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/team.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/team_position.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
 
 class FixtureDetails extends Equatable {
@@ -10,16 +10,18 @@ class FixtureDetails extends Equatable {
   final String stadium;
   final String? tvGuide;
   final String matchTime;
-  final Map<String, dynamic> statistics;
+  final String leagueName;
+  final List<Statistic> statistics;
   final List<Fixture> homeTeamLastFixtures;
   final List<Fixture> awayTeamLastFixtures;
-  final List<TeamPosition>? standings;
-  final Knockout ?knockout;
+  final List<Standing>? standings;
+  final List<KnockoutPhase>? knockout;
   final Team homeTeam;
   final String homeScore;
   final Team awayTeam;
   final String awayScore;
   const FixtureDetails({
+    required this.leagueName,
     required this.matchTime,
     required this.kickOff,
     required this.stadium,
@@ -34,9 +36,11 @@ class FixtureDetails extends Equatable {
     required this.awayTeam,
     required this.awayScore,
   });
-  
+
   @override
   List<Object?> get props => [
+        leagueName,
+        matchTime,
         kickOff,
         stadium,
         tvGuide,

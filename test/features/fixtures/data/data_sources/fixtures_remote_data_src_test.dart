@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fixtures_app/core/constants/web_const.dart';
 import 'package:fixtures_app/features/fixtures/data/data_sources/fixtures_remote_data_src.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture_details.dart';
@@ -7,92 +8,103 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:fixtures_app/core/exceptions/exceptions.dart';
+import 'package:html/parser.dart' as htmlParser;
 
-import '../../../../core/constants/web_src.dart';
 import '../../../../core/helpers/test_helper.mocks.dart';
 
 void main() {
   late http.Client mockClient;
-  late FixturesRemoteDataSource fixturesRemoteDataSource;
+  late FixturesRemoteDataSourceWebScrapping fixturesRemoteDataSource;
+
   group('get fixtures remotely', () {
     setUp(() {
       mockClient = MockClient();
       fixturesRemoteDataSource =
           FixturesRemoteDataSourceWebScrapping(httpClient: mockClient);
     });
-    String testDate = '2024-06-01';
 
-    final successResponse = http.Response('data:{}', 200);
+    String testDate = '2024-06-01';
+    final successResponse = http.Response('{"data": []}', 200);
+
     test('should return fixtures models', () async {
-      //AAA
-      //arrange
+      // Arrange
       when(mockClient.get(Uri.parse(fixturesUrl))).thenAnswer((_) async {
         return successResponse;
       });
-      //act
+
+      // Act
       final result = await fixturesRemoteDataSource.getFixtures(date: testDate);
-      //assert
+
+      // Assert
       expect(result, isA<List<Fixture>>());
     });
+
     final errorResponse = http.Response('Not Found', 404);
-    test('should throw a Exception', () async {
-      //AAA
-      //arrange
+
+    test('should throw an Exception', () async {
+      // Arrange
       when(mockClient.get(Uri.parse(fixturesUrl))).thenAnswer((_) async {
         return errorResponse;
       });
-      // act then assert
+
+      // Act & Assert
       expect(() async {
         await fixturesRemoteDataSource.getFixtures(date: testDate);
-      }, throwsA(isA<Exception>()));
+      }, throwsA(isA<ServerException>()));
     });
   });
-  String testFixtureDetailsUrl = '/109324';
-  group(
-    'get fixture Details remotely ',
-    () {
-      final successResponse = http.Response('data:{}', 200);
 
-      test(
-        'should return fixture details',
-        () async {
-          ///AAA
-          ///arrange
-          when(mockClient.get(Uri.parse(testFixtureDetailsUrl))).thenAnswer(
-            (realInvocation) async {
-              return successResponse;
-            },
-          );
+  String testFixtureDetailsUrl = 'https://onefootball.com/en/match/2470856';
 
-          ///act
-          final result = await fixturesRemoteDataSource.getFixtureDetails(
-              fixtureDetailsUrl: testFixtureDetailsUrl);
+  group('get fixture details remotely', () {
+    setUp(() {
+      mockClient = MockClient();
+      fixturesRemoteDataSource =
+          FixturesRemoteDataSourceWebScrapping(httpClient: mockClient);
+    });
 
-          ///assert
-          expect(result, isA<FixtureDetails>());
-        },
-      );
-      final errorResponse = http.Response('Not Found', 404);
+    test('should return fixture details', () async {
+      // Arrange
+      final response =
+          await File('test/core/constants/fixture_details_response.html')
+              .readAsBytesSync();
+      final successResponse = http.Response.bytes(response, 200);
+      when(mockClient.get(Uri.parse(testFixtureDetailsUrl)))
+          .thenAnswer((_) async {
+        return successResponse;
+      });
+      when(mockClient.get(Uri.parse(
+              'https://onefootball.com//en/competition/copa-america-37/table')))
+          .thenAnswer((_) async {
+        return successResponse;
+      });
+      when(mockClient.get(Uri.parse(
+              'https://onefootball.com//en/competition/copa-america-37/kotree')))
+          .thenAnswer((_) async {
+        return successResponse;
+      });
+      // Act
+      final result = await fixturesRemoteDataSource.getFixtureDetails(
+          fixtureDetailsUrl: testFixtureDetailsUrl);
 
-      test(
-        'should throw exception',
-        () async {
-          ///AAA
-          ///arrange
-          when(mockClient.get(Uri.parse(testFixtureDetailsUrl))).thenAnswer(
-            (realInvocation) async {
-              return errorResponse;
-            },
-          );
+      // Assert
+      expect(result, isA<FixtureDetails>());
+    });
 
-          ///act
-          final result = await fixturesRemoteDataSource.getFixtureDetails(
-              fixtureDetailsUrl: testFixtureDetailsUrl);
+    final errorResponse = http.Response('Not Found', 404);
 
-          ///assert
-          expect(result, isA<Exception>());
-        },
-      );
-    },
-  );
+    test('should throw an exception', () async {
+      // Arrange
+      when(mockClient.get(Uri.parse(testFixtureDetailsUrl)))
+          .thenAnswer((_) async {
+        return errorResponse;
+      });
+
+      // Act & Assert
+      expect(() async {
+        await fixturesRemoteDataSource.getFixtureDetails(
+            fixtureDetailsUrl: testFixtureDetailsUrl);
+      }, throwsA(isA<ServerException>()));
+    });
+  });
 }

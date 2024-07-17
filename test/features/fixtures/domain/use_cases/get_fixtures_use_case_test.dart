@@ -29,6 +29,8 @@ void main() {
           date: "2024-06-26",
           awayTeamName: "Liverpool",
           awayTeamLogo: "liverpool_logo.png",
+          leagueLogo: '',
+
           awayScore: '1'),
       Fixture(
           homeTeamName: "Real Madrid",
@@ -40,6 +42,7 @@ void main() {
           date: "2024-06-27",
           awayTeamName: "Barcelona",
           awayTeamLogo: "barcelona_logo.png",
+          leagueLogo: '',
           awayScore: '2')
     ];
     String testDate = '2024-06-25';

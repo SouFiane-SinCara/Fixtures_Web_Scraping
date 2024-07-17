@@ -6,18 +6,34 @@ class TeamPosition extends Equatable {
   final int gamesPlayed;
   final int wins;
   final int draws;
+  final int lose;
   final int points;
   final int goalsDifference;
   final Team team;
+
   const TeamPosition({
     required this.gamesPlayed,
     required this.wins,
     required this.draws,
+    required this.lose,
     required this.points,
     required this.team,
     required this.goalsDifference,
   });
+  String printDetails(){
+    return
+    '''
+    gamesPlayed : ${gamesPlayed}
+    wins : ${wins}
+    draws : ${draws}
+    lose : ${lose}
+    points : ${points}
+    team : name: ${team.name} imageUrl: ${team.imageUrl}
+    goalsDifference : ${goalsDifference}
+
+    ''';
+  }
   @override
   List<Object?> get props =>
-      [gamesPlayed, wins, draws, points, goalsDifference, team];
+      [gamesPlayed, wins, lose, draws, points, goalsDifference, team];
 }

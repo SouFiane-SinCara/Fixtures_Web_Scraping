@@ -1,71 +1,45 @@
 import 'dart:io';
 
 import 'package:fixtures_app/features/fixtures/data/models/fixture_details_model.dart';
-import 'package:fixtures_app/features/fixtures/data/models/fixture_model.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture_details.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/team.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:html/dom.dart';
+import 'package:html/parser.dart' as htmlParser;
+import '../../../../core/constants/expected_fixture_details_model.dart';
 
 void main() {
   group(
     'fixture details model',
     () {
-      String testDate = '2023';
-      FixtureDetails testFixtureDetails = const FixtureDetails(
-          matchTime: '20:00',
-          kickOff: 'today',
-          stadium: 'stadium',
-          tvGuide: 'tvGuide',
-          statistics: {},
-          homeTeamLastFixtures: [
-            Fixture(
-                homeTeamName: 'homeTeamName',
-                homeTeamLogo: 'homeTeamLogo',
-                homeScore: 'homeScore',
-                time: 'time',
-                league: 'league',
-                date: 'date',
-                awayTeamName: 'awayTeamName',
-                awayTeamLogo: 'awayTeamLogo',
-                awayScore: 'awayScore',
-                moreInfoLink: 'moreInfoLink')
-          ],
-          awayTeamLastFixtures: [
-            Fixture(
-                homeTeamName: 'homeTeamName',
-                homeTeamLogo: 'homeTeamLogo',
-                homeScore: 'homeScore',
-                time: 'time',
-                league: 'league',
-                date: 'date',
-                awayTeamName: 'awayTeamName',
-                awayTeamLogo: 'awayTeamLogo',
-                awayScore: 'awayScore',
-                moreInfoLink: 'moreInfoLink')
-          ],
-          standings: null,
-          knockout: null,
-          homeTeam: Team(name: 'name', imageUrl: 'imageUrl'),
-          homeScore: 'homeScore',
-          awayTeam: Team(name: 'name', imageUrl: 'imageUrl'),
-          awayScore: 'awayScore');
       test(
         'should return Fixture details model from html element',
         () async {
           //AAA
           //arrange
-          final String response =
-              await File('test/core/constants/fixture_details.html')
+          final String fixtureDetailsResponse =
+              await File('test/core/constants/fixture_details_response.html')
                   .readAsString();
-          Element html = Element.html(response);
+          final String standingsResponse =
+              await File('test/core/constants/standings_response.html')
+                  .readAsString();
+          final String knockoutResponse =
+              await File('test/core/constants/knockout_response.html')
+                  .readAsString();
+
+          Document fixtureDetailsDocument =
+              htmlParser.parse(fixtureDetailsResponse);
+          Document standingsDocument = htmlParser.parse(standingsResponse);
+          Document knockoutDocument = htmlParser.parse(knockoutResponse);
           //act
-          final result = FixtureDetailsModel.fromHtml(html: html);
+          final result = FixtureDetailsModel.fromHtml(
+              fixtureDetailsHtml: fixtureDetailsDocument.body!,
+              standingsHtml: standingsDocument.body,
+              knockoutHtml: knockoutDocument.body);
+
           //assert
-          expect(result, isA<FixtureDetailsModel>());
+          expect(result, equals(expectedFixtureDetailsModel));
         },
       );
     },
   );
-}
+} 

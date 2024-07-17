@@ -9,6 +9,7 @@ class GetFixtureDetailsUseCase {
   });
 
   FutureEither<FixtureDetails> call({required String fixtureDetailsUrl}) {
-    throw UnimplementedError();
+    return fixturesRepository.getFixtureDetails(
+        fixtureDetailsUrl: fixtureDetailsUrl);
   }
 }

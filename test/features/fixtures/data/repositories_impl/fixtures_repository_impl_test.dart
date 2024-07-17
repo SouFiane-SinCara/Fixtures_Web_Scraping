@@ -31,6 +31,8 @@ void main() {
             moreInfoLink: '/en/match/2509332',
             homeScore: '2',
             time: "90'",
+          leagueLogo: '',
+
             league: "Premier League",
             date: "2024-06-26",
             awayTeamName: "Liverpool",
@@ -39,6 +41,8 @@ void main() {
         Fixture(
             homeTeamName: "Real Madrid",
             homeTeamLogo: "real_madrid_logo.png",
+          leagueLogo: '',
+
             homeScore: '3',
             moreInfoLink: '/en/match/2515122',
             time: "FT",

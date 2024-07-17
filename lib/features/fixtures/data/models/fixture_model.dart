@@ -1,5 +1,6 @@
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
 import 'package:html/dom.dart';
+import '../../../../core/constants/web_const.dart';
 
 class FixtureModel extends Fixture {
   const FixtureModel({
@@ -7,6 +8,7 @@ class FixtureModel extends Fixture {
     required super.homeTeamLogo,
     required super.homeScore,
     required super.time,
+    required super.leagueLogo,
     required super.league,
     required super.date,
     required super.awayTeamName,
@@ -14,7 +16,8 @@ class FixtureModel extends Fixture {
     required super.awayScore,
     required super.moreInfoLink,
   });
-  factory FixtureModel.fromHtml(Element html, String date, String nameLeague) {
+  factory FixtureModel.fromHtml(
+      Element html, String date, String nameLeague, String logoLeague) {
     final String homeTeamName;
     String? homeTeamLogo;
     final String homeScore;
@@ -93,14 +96,15 @@ class FixtureModel extends Fixture {
       awayTeamLogo = awayImagesSrc[imagesSrcIndex].attributes['srcset'];
       break;
     }
-    moreInfoLink = html.querySelector('a')!.attributes!['href']!;
-   
+    String suffixMoreInfoLink = html.querySelector('a')!.attributes!['href']!;
+    moreInfoLink = 'https://onefootball.com$suffixMoreInfoLink';
     return FixtureModel(
         homeTeamName: homeTeamName,
         homeTeamLogo: homeTeamLogo!,
         homeScore: homeScore,
         time: time!,
         league: league,
+        leagueLogo: logoLeague,
         moreInfoLink: moreInfoLink,
         date: date,
         awayTeamName: awayTeamName,

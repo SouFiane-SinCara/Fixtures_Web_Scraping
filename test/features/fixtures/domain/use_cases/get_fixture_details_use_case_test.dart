@@ -26,10 +26,11 @@ void main() {
       String testFixtureDetailsUrl = '/12151058';
       FixtureDetails testFixtureDetails = const FixtureDetails(
           matchTime: '20:00',
+          leagueName: 'league',
           kickOff: 'today',
           stadium: 'stadium',
           tvGuide: 'tvGuide',
-          statistics: {},
+          statistics: [],
           homeTeamLastFixtures: [
             Fixture(
                 homeTeamName: 'homeTeamName',
@@ -39,6 +40,7 @@ void main() {
                 league: 'league',
                 date: 'date',
                 awayTeamName: 'awayTeamName',
+                leagueLogo: '',
                 awayTeamLogo: 'awayTeamLogo',
                 awayScore: 'awayScore',
                 moreInfoLink: 'moreInfoLink')
@@ -50,6 +52,7 @@ void main() {
                 homeScore: 'homeScore',
                 time: 'time',
                 league: 'league',
+                leagueLogo: '',
                 date: 'date',
                 awayTeamName: 'awayTeamName',
                 awayTeamLogo: 'awayTeamLogo',
