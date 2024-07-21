@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:fixtures_app/core/constants/web_const.dart';
 import 'package:fixtures_app/features/fixtures/data/data_sources/fixtures_remote_data_src.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
@@ -15,14 +16,14 @@ import '../../../../core/helpers/test_helper.mocks.dart';
 void main() {
   late http.Client mockClient;
   late FixturesRemoteDataSourceWebScrapping fixturesRemoteDataSource;
-
+  late Connectivity mockConnectivity;
+  setUp(() {
+    mockClient = MockClient();
+    mockConnectivity = MockConnectivity();
+    fixturesRemoteDataSource = FixturesRemoteDataSourceWebScrapping(
+        httpClient: mockClient, connectivity: mockConnectivity);
+  });
   group('get fixtures remotely', () {
-    setUp(() {
-      mockClient = MockClient();
-      fixturesRemoteDataSource =
-          FixturesRemoteDataSourceWebScrapping(httpClient: mockClient);
-    });
-
     String testDate = '2024-06-01';
     final successResponse = http.Response('{"data": []}', 200);
 
@@ -31,7 +32,11 @@ void main() {
       when(mockClient.get(Uri.parse(fixturesUrl))).thenAnswer((_) async {
         return successResponse;
       });
-
+      when(mockConnectivity.checkConnectivity()).thenAnswer(
+        (_) async {
+          return [ConnectivityResult.wifi];
+        },
+      );
       // Act
       final result = await fixturesRemoteDataSource.getFixtures(date: testDate);
 
@@ -46,23 +51,38 @@ void main() {
       when(mockClient.get(Uri.parse(fixturesUrl))).thenAnswer((_) async {
         return errorResponse;
       });
-
+      when(mockConnectivity.checkConnectivity()).thenAnswer(
+        (_) async {
+          return [ConnectivityResult.wifi];
+        },
+      );
       // Act & Assert
       expect(() async {
         await fixturesRemoteDataSource.getFixtures(date: testDate);
       }, throwsA(isA<ServerException>()));
     });
+    test(
+      'should throw No internet exception',
+      () async {
+        //AAA
+        //arrange
+        when(mockConnectivity.checkConnectivity()).thenAnswer(
+          (realInvocation) async {
+            return [ConnectivityResult.none];
+          },
+        );
+        //act and assert
+        expect(
+            () async =>
+                await fixturesRemoteDataSource.getFixtures(date: testDate),
+            throwsA(isA<NoInternetConnectionException>()));
+      },
+    );
   });
 
   String testFixtureDetailsUrl = 'https://onefootball.com/en/match/2470856';
 
   group('get fixture details remotely', () {
-    setUp(() {
-      mockClient = MockClient();
-      fixturesRemoteDataSource =
-          FixturesRemoteDataSourceWebScrapping(httpClient: mockClient);
-    });
-
     test('should return fixture details', () async {
       // Arrange
       final response =
@@ -73,6 +93,11 @@ void main() {
           .thenAnswer((_) async {
         return successResponse;
       });
+      when(mockConnectivity.checkConnectivity()).thenAnswer(
+        (_) async {
+          return [ConnectivityResult.wifi];
+        },
+      );
       when(mockClient.get(Uri.parse(
               'https://onefootball.com//en/competition/copa-america-37/table')))
           .thenAnswer((_) async {
@@ -99,12 +124,33 @@ void main() {
           .thenAnswer((_) async {
         return errorResponse;
       });
-
+      when(mockConnectivity.checkConnectivity()).thenAnswer(
+        (realInvocation) async {
+          return [ConnectivityResult.wifi];
+        },
+      );
       // Act & Assert
       expect(() async {
         await fixturesRemoteDataSource.getFixtureDetails(
             fixtureDetailsUrl: testFixtureDetailsUrl);
       }, throwsA(isA<ServerException>()));
     });
+    test(
+      'should throw No internet exception',
+      () async {
+        //AAA
+        //arrange
+        when(mockConnectivity.checkConnectivity()).thenAnswer(
+          (realInvocation) async {
+            return [ConnectivityResult.none];
+          },
+        );
+        //act and assert
+        expect(
+            () async => await fixturesRemoteDataSource.getFixtureDetails(
+                fixtureDetailsUrl: testFixtureDetailsUrl),
+            throwsA(isA<NoInternetConnectionException>()));
+      },
+    );
   });
 }

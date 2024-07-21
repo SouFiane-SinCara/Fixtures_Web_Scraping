@@ -7,6 +7,7 @@ import 'dart:async' as _i6;
 import 'dart:convert' as _i9;
 import 'dart:typed_data' as _i11;
 
+import 'package:connectivity_plus/connectivity_plus.dart' as _i13;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:fixtures_app/core/failures/failures.dart' as _i7;
 import 'package:fixtures_app/features/fixtures/data/data_sources/fixtures_remote_data_src.dart'
@@ -402,4 +403,31 @@ class MockFixturesRemoteDataSource extends _i1.Mock
           ),
         )),
       ) as _i6.Future<_i4.FixtureDetails>);
+}
+
+/// A class which mocks [Connectivity].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockConnectivity extends _i1.Mock implements _i13.Connectivity {
+  MockConnectivity() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.Stream<List<_i13.ConnectivityResult>> get onConnectivityChanged =>
+      (super.noSuchMethod(
+        Invocation.getter(#onConnectivityChanged),
+        returnValue: _i6.Stream<List<_i13.ConnectivityResult>>.empty(),
+      ) as _i6.Stream<List<_i13.ConnectivityResult>>);
+
+  @override
+  _i6.Future<List<_i13.ConnectivityResult>> checkConnectivity() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #checkConnectivity,
+          [],
+        ),
+        returnValue: _i6.Future<List<_i13.ConnectivityResult>>.value(
+            <_i13.ConnectivityResult>[]),
+      ) as _i6.Future<List<_i13.ConnectivityResult>>);
 }

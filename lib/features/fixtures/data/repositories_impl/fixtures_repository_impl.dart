@@ -27,8 +27,18 @@ class FixturesRepositoryImpl extends FixturesRepository {
   }
 
   @override
-  FutureEither<FixtureDetails> getFixtureDetails({required String fixtureDetailsUrl}) {
-    // TODO: implement getFixtureDetails
-    throw UnimplementedError();
+  FutureEither<FixtureDetails> getFixtureDetails(
+      {required String fixtureDetailsUrl}) async {
+    try {
+      FixtureDetails fixtureDetails = await fixturesRemoteDataSource
+          .getFixtureDetails(fixtureDetailsUrl: fixtureDetailsUrl);
+      return Right(fixtureDetails);
+    } on NoInternetConnectionException {
+      return Left(NoInternetConnectionFailure());
+    } on ServerException {
+      return Left(ServerFailure());
+    } catch (e) {
+      return Left(GeneraleFailure());
+    }
   }
 }
