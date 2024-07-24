@@ -9,7 +9,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:fixtures_app/core/exceptions/exceptions.dart';
-import 'package:html/parser.dart' as htmlParser;
 
 import '../../../../core/helpers/test_helper.mocks.dart';
 

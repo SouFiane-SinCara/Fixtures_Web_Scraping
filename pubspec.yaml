@@ -13,6 +13,8 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
+  flutter_native_splash: ^2.4.1
+  flutter_screenutil: ^5.9.3
   html: ^0.15.4
   http: ^1.2.1
   mockito: ^5.4.4
@@ -26,9 +28,8 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - lib/core/assets/images/splash/
   # fonts:
   #   - family: Schyler
   #     fonts:
@@ -40,3 +41,12 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+
+#! Splash screen
+flutter_native_splash:
+  color: "#181829"
+  image: lib/core/assets/images/splash/logo.png
+  
+  android_12:
+    icon_background_color: "#181829"
+    image: lib/core/assets/images/splash/logo.png
