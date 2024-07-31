@@ -1,6 +1,5 @@
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
 import 'package:html/dom.dart';
-import '../../../../core/constants/web_const.dart';
 
 class FixtureModel extends Fixture {
   const FixtureModel({
@@ -21,17 +20,35 @@ class FixtureModel extends Fixture {
     final String homeTeamName;
     String? homeTeamLogo;
     final String homeScore;
-    final String? time;
+    String? time;
     final String league;
     final String awayTeamName;
     final String moreInfoLink;
     String? awayTeamLogo;
     final String awayScore;
-    final Element? getTime = html.querySelector(
-        'a > article > div > div.SimpleMatchCard_simpleMatchCard__matchContent__prwTf > span');
-    time = getTime!.innerHtml.startsWith('<time')
-        ? getTime.firstChild!.text
-        : getTime.innerHtml;
+    String determineMatchTime(Element html) {
+      Element? normalTime = html.querySelector(
+          '.SimpleMatchCard_simpleMatchCard__infoMessage___NJqW');
+      if (normalTime != null) {
+        return normalTime.text;
+      }
+
+      Element? playingTime =
+          html.querySelector('.SimpleMatchCard_simpleMatchCard__live__kg0bW');
+      if (playingTime != null) {
+        return playingTime.text;
+      }
+
+      Element? warningMessage = html.querySelector(
+          '.SimpleMatchCard_simpleMatchCard__warningMessage__7lDK2');
+      if (warningMessage != null) {
+        return warningMessage.text;
+      }
+
+      return 'Full time';
+    }
+
+    time = determineMatchTime(html);
     league = nameLeague;
     final towTeams = html
         .querySelector(
@@ -96,13 +113,13 @@ class FixtureModel extends Fixture {
       awayTeamLogo = awayImagesSrc[imagesSrcIndex].attributes['srcset'];
       break;
     }
-    String suffixMoreInfoLink = html.querySelector('a')!.attributes!['href']!;
+    String suffixMoreInfoLink = html.querySelector('a')!.attributes['href']!;
     moreInfoLink = 'https://onefootball.com$suffixMoreInfoLink';
     return FixtureModel(
         homeTeamName: homeTeamName,
         homeTeamLogo: homeTeamLogo!,
         homeScore: homeScore,
-        time: time!,
+        time: time,
         league: league,
         leagueLogo: logoLeague,
         moreInfoLink: moreInfoLink,

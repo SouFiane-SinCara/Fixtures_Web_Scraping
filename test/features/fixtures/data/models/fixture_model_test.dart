@@ -40,8 +40,7 @@ void main() {
           //act
           FixtureModel result = FixtureModel.fromHtml(
               testFixtureHtml, testDate, testLeague, testLeagueLogo);
-          print("result" + result.printDetails());
-          print("expected: ${expectedFixture.printDetails()}");
+         
           //assert
           expect(result, equals(expectedFixture));
         },

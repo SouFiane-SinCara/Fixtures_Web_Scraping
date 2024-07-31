@@ -85,7 +85,7 @@ void main() {
     test('should return fixture details', () async {
       // Arrange
       final response =
-          await File('test/core/constants/fixture_details_response.html')
+          File('test/core/constants/fixture_details_response.html')
               .readAsBytesSync();
       final successResponse = http.Response.bytes(response, 200);
       when(mockClient.get(Uri.parse(testFixtureDetailsUrl)))

@@ -12,5 +12,6 @@ class MyRoutes {
 
       default:
     }
+    return null;
   }
 }

@@ -12,7 +12,7 @@ class Standing extends Equatable {
   });
   String printDetails() {
     return '''
-    nameStanding: ${nameStanding}
+    nameStanding: $nameStanding
     teamPosition: ${teamPosition.map(
       (e) => e.printDetails(),
     )}

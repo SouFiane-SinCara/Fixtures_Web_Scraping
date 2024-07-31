@@ -1,6 +1,5 @@
 import 'package:fixtures_app/features/fixtures/data/models/fixture_details_model.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture_details.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture_knockout.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/knockout_phase.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/standing.dart';

@@ -19,10 +19,12 @@ class FixturesRepositoryImpl extends FixturesRepository {
       List<Fixture> fixtures =
           await fixturesRemoteDataSource.getFixtures(date: date);
       return Right(fixtures);
+    } on NoInternetConnectionException {
+      return Left(NoInternetConnectionFailure());
     } on ServerException {
       return Left(ServerFailure());
-    } on Exception {
-      return Left(ServerFailure());
+    } catch (e) {
+      return Left(GeneraleFailure());
     }
   }
 

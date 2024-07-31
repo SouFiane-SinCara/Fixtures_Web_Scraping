@@ -27,7 +27,7 @@ class FixtureDetailsModel extends FixtureDetails {
 
   String printWithDetails() {
     return '''
-      matchTime: ${matchTime}
+      matchTime: $matchTime
       kickOff: $kickOff
       stadium: $stadium
       leagueName: $leagueName
@@ -187,8 +187,7 @@ class FixtureDetailsModel extends FixtureDetails {
       final roundNames = knockoutHtml.querySelectorAll(
           '#__next > main > div > div > div.xpaLayoutContainer.XpaLayout_xpaLayoutContainerFullWidth__arqR4.xpaLayoutContainerFullWidth--knockoutTree > div > div > ul > li > p > span');
       int roundNameIndex = 0;
-      treeElements.forEach(
-        (treeElement) {
+      for (var treeElement in treeElements) {
           List<FixtureKnockout> fixtures = [];
 
           treeElement.querySelectorAll('.KoTreeNode_container__BErpF').forEach(
@@ -213,8 +212,7 @@ class FixtureDetailsModel extends FixtureDetails {
               fixtures: fixtures);
           knockout!.add(knockoutPhase);
           roundNameIndex++;
-        },
-      );
+        }
     }
     //? ---------------------------------------getting last matches---------------------------------------
     final lastMatches =

@@ -1,10 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:fixtures_app/core/failures/failures.dart';
-import 'package:fixtures_app/core/helpers/data_types.dart';
 import 'package:fixtures_app/features/fixtures/data/data_sources/fixtures_remote_data_src.dart';
 import 'package:fixtures_app/features/fixtures/data/repositories_impl/fixtures_repository_impl.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture_details.dart';
 import 'package:fixtures_app/features/fixtures/domain/repositories/fixtures_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
@@ -116,8 +113,7 @@ void main() {
           expect(result, equals(successResponse));
         },
       );
-      Either<Failure, FixtureDetails> noInternetConnectionFailure =
-          Left(NoInternetConnectionFailure());
+
       test(
         'should return no internet failure',
         () async {
@@ -138,7 +134,7 @@ void main() {
           expect(result, isA<Left>());
         },
       );
-      Either<Failure, FixtureDetails> serverFailure = Left(ServerFailure());
+
       test(
         'should return Server failure',
         () async {
@@ -156,7 +152,7 @@ void main() {
           final result = await fixturesRepository.getFixtureDetails(
               fixtureDetailsUrl: testFixtureDetailsUrl);
           //assert
-          expect(result, isA<Left>());  
+          expect(result, isA<Left>());
         },
       );
     },

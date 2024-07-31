@@ -4,7 +4,7 @@ import 'package:fixtures_app/features/fixtures/data/models/fixture_details_model
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:html/dom.dart';
-import 'package:html/parser.dart' as htmlParser;
+import 'package:html/parser.dart' as html_parser;
 import '../../../../core/constants/expected_fixture_details_model.dart';
 
 void main() {
@@ -27,9 +27,9 @@ void main() {
                   .readAsString();
 
           Document fixtureDetailsDocument =
-              htmlParser.parse(fixtureDetailsResponse);
-          Document standingsDocument = htmlParser.parse(standingsResponse);
-          Document knockoutDocument = htmlParser.parse(knockoutResponse);
+              html_parser.parse(fixtureDetailsResponse);
+          Document standingsDocument = html_parser.parse(standingsResponse);
+          Document knockoutDocument = html_parser.parse(knockoutResponse);
           //act
           final result = FixtureDetailsModel.fromHtml(
               fixtureDetailsHtml: fixtureDetailsDocument.body!,

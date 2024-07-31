@@ -23,13 +23,13 @@ class TeamPosition extends Equatable {
   String printDetails(){
     return
     '''
-    gamesPlayed : ${gamesPlayed}
-    wins : ${wins}
-    draws : ${draws}
-    lose : ${lose}
-    points : ${points}
+    gamesPlayed : $gamesPlayed
+    wins : $wins
+    draws : $draws
+    lose : $lose
+    points : $points
     team : name: ${team.name} imageUrl: ${team.imageUrl}
-    goalsDifference : ${goalsDifference}
+    goalsDifference : $goalsDifference
 
     ''';
   }
