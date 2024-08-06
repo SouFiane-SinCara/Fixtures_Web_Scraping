@@ -3,7 +3,7 @@
 
 
     <application
-        android:label="fixtures_app"
+        android:label="onPitch"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
