@@ -2,15 +2,15 @@ import 'package:equatable/equatable.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/team.dart';
 
 class FixtureKnockout extends Equatable {
-  final String status;
+  final String score;
   final List<Team> teams;
   const FixtureKnockout({
-    required this.status,
+    required this.score,
     required this.teams,
   });
   String printDetails() {
     return '''
-    status: $status
+    status: $score
     teams: ${teams.map(
       (e) => e.printDetails(),
     )}
@@ -18,5 +18,5 @@ class FixtureKnockout extends Equatable {
   }
 
   @override
-  List<Object?> get props => [teams, status];
+  List<Object?> get props => [teams, score];
 }

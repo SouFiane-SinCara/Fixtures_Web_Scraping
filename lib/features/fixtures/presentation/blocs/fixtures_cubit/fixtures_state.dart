@@ -9,9 +9,9 @@ sealed class FixturesState extends Equatable {
 
 final class FixturesLoadingState extends FixturesState {}
 
-final class FixtureInitialState extends FixturesState {
+final class FixtureUpdateState extends FixturesState {
   final List<Fixture> fixtures;
-  const FixtureInitialState({required this.fixtures});
+  const FixtureUpdateState({required this.fixtures});
 }
 
 final class FixturesLoadedState extends FixturesState {

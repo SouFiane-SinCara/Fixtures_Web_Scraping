@@ -90,7 +90,6 @@ class FixturesRemoteDataSourceWebScrapping extends FixturesRemoteDataSource {
             .get(Uri.parse('$targetedWebsiteUrl/$theLink/kotree'));
         Document standingsDocument = html_parser.parse(standingsResponse.body);
         Document knockoutDocument = html_parser.parse(knockoutResponse.body);
-
         FixtureDetailsModel fixtureDetailsModel = FixtureDetailsModel.fromHtml(
             fixtureDetailsHtml: fixtureDetailsDocument.body!,
             standingsHtml: standingsDocument.body,

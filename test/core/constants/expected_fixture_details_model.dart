@@ -367,7 +367,7 @@ const FixtureDetailsModel expectedFixtureDetailsModel = FixtureDetailsModel(
     ],
     knockout: [
       KnockoutPhase(roundName: "Quarter-finals", fixtures: [
-        FixtureKnockout(status: "1(4)-1(2)", teams: [
+        FixtureKnockout(score: "1(4)-1(2)", teams: [
           Team(
               name: "Argentina",
               imageUrl:
@@ -377,7 +377,7 @@ const FixtureDetailsModel expectedFixtureDetailsModel = FixtureDetailsModel(
               imageUrl:
                   "https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/101.png")
         ]),
-        FixtureKnockout(status: "1(3)-1(4)", teams: [
+        FixtureKnockout(score: "1(3)-1(4)", teams: [
           Team(
               name: "Venezuela",
               imageUrl:
@@ -389,7 +389,7 @@ const FixtureDetailsModel expectedFixtureDetailsModel = FixtureDetailsModel(
         ])
       ]),
       KnockoutPhase(roundName: "Semi-finals", fixtures: [
-        FixtureKnockout(status: "2-0", teams: [
+        FixtureKnockout(score: "2-0", teams: [
           Team(
               name: "Argentina",
               imageUrl:
@@ -401,7 +401,7 @@ const FixtureDetailsModel expectedFixtureDetailsModel = FixtureDetailsModel(
         ])
       ]),
       KnockoutPhase(roundName: "Final", fixtures: [
-        FixtureKnockout(status: "1-0", teams: [
+        FixtureKnockout(score: "1-0", teams: [
           Team(
               name: "Argentina",
               imageUrl:
@@ -413,7 +413,7 @@ const FixtureDetailsModel expectedFixtureDetailsModel = FixtureDetailsModel(
         ])
       ]),
       KnockoutPhase(roundName: "Semi-finals", fixtures: [
-        FixtureKnockout(status: "0-1", teams: [
+        FixtureKnockout(score: "0-1", teams: [
           Team(
               name: "Uruguay",
               imageUrl:
@@ -425,7 +425,7 @@ const FixtureDetailsModel expectedFixtureDetailsModel = FixtureDetailsModel(
         ])
       ]),
       KnockoutPhase(roundName: "Quarter-finals", fixtures: [
-        FixtureKnockout(status: "5-0", teams: [
+        FixtureKnockout(score: "5-0", teams: [
           Team(
               name: "Colombia",
               imageUrl:
@@ -435,7 +435,7 @@ const FixtureDetailsModel expectedFixtureDetailsModel = FixtureDetailsModel(
               imageUrl:
                   "https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/1022.png")
         ]),
-        FixtureKnockout(status: "0(4)-0(2)", teams: [
+        FixtureKnockout(score: "0(4)-0(2)", teams: [
           Team(
               name: "Uruguay",
               imageUrl:
@@ -448,12 +448,12 @@ const FixtureDetailsModel expectedFixtureDetailsModel = FixtureDetailsModel(
       ])
     ],
     homeTeam: Team(
-        name: "Logo: Canada",
+        name: "Canada",
         imageUrl:
             "https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/132.png"),
-    homeScore: "2",
+    homeScore: "2 (3)",
     awayTeam: Team(
-        name: "Logo: Uruguay",
+        name: "Uruguay",
         imageUrl:
             "https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/56.png"),
-    awayScore: "2");
+    awayScore: "2 (4)");

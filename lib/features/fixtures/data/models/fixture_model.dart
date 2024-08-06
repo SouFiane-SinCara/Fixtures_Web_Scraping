@@ -30,7 +30,7 @@ class FixtureModel extends Fixture {
       Element? normalTime = html.querySelector(
           '.SimpleMatchCard_simpleMatchCard__infoMessage___NJqW');
       if (normalTime != null) {
-        return normalTime.text;
+        return normalTime.text == 'Pens' ? 'Full time' : normalTime.text;
       }
 
       Element? playingTime =

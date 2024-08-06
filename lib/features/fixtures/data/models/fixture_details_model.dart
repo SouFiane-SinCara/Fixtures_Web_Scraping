@@ -39,7 +39,8 @@ class FixtureDetailsModel extends FixtureDetails {
     )}
       homeTeamLastFixtures: ${homeTeamLastFixtures.map(
       (e) => e.printDetails(),
-    )}
+    )}   
+    
       awayTeamLastFixtures: ${awayTeamLastFixtures.map(
       (e) => e.printDetails(),
     )}
@@ -65,7 +66,10 @@ class FixtureDetailsModel extends FixtureDetails {
     final matchTimeElement = fixtureDetailsHtml
         .getElementsByClassName('title-6-bold MatchScore_numeric__ke8YT');
     String matchTime = matchTimeElement.isEmpty
-        ? 'full time'
+        ? fixtureDetailsHtml
+                .querySelector('.MatchScore_highlightedText__hXFt7')
+                ?.innerHtml ??
+            'full time'
         : matchTimeElement.first.innerHtml;
 
     final matchInfo = fixtureDetailsHtml.getElementsByClassName(
@@ -74,10 +78,10 @@ class FixtureDetailsModel extends FixtureDetails {
         'span.EntityLogo_entityLogo__29IUu.EntityLogo_entityLogoWithHover__XynBQ.MatchScoreTeam_icon__XiDSl > img');
 
     Team homeTeam = Team(
-        name: teamsElements[0].attributes['alt']!,
+        name: teamsElements[0].attributes['alt']!.replaceFirst('Logo: ', ''),
         imageUrl: teamsElements[0].attributes['src']!);
     Team awayTeam = Team(
-        name: teamsElements[1].attributes['alt']!,
+        name: teamsElements[1].attributes['alt']!.replaceFirst('Logo: ', ''),
         imageUrl: teamsElements[1].attributes['src']!);
 
     String leagueName = matchInfo.isEmpty ? '' : matchInfo[0].innerHtml;
@@ -105,18 +109,20 @@ class FixtureDetailsModel extends FixtureDetails {
             .querySelector(
                 '#__next > main > div > div > div.xpaLayoutContainer.XpaLayout_xpaLayoutContainerFullWidth__arqR4.xpaLayoutContainerFullWidth--matchScore > div > div > div > div > div > span')!
             .innerHtml;
+
     if (score != '') {
       homeScore = score[0];
       awayScore = score[score.length - 1];
     }
-    if (penalities.startsWith('pens') && penalities != '') {
+    if (penalities.startsWith('Pens')) {
       // Regular expression to capture the numbers
       final regex = RegExp(r'Pens:\s(\d+)\s-\s(\d+)');
       final matches = regex.firstMatch(penalities);
       final number1 = matches!.group(1);
       final number2 = matches.group(2);
-      homeScore = '$homeScore($number1)';
-      awayScore = '$awayScore($number2)';
+
+      homeScore = '$homeScore ($number1)';
+      awayScore = '$awayScore ($number2)';
     }
 
     //? ---------------------------------------getting the standings---------------------------------------
@@ -188,31 +194,31 @@ class FixtureDetailsModel extends FixtureDetails {
           '#__next > main > div > div > div.xpaLayoutContainer.XpaLayout_xpaLayoutContainerFullWidth__arqR4.xpaLayoutContainerFullWidth--knockoutTree > div > div > ul > li > p > span');
       int roundNameIndex = 0;
       for (var treeElement in treeElements) {
-          List<FixtureKnockout> fixtures = [];
+        List<FixtureKnockout> fixtures = [];
 
-          treeElement.querySelectorAll('.KoTreeNode_container__BErpF').forEach(
-            (container) {
-              final teams = container
-                  .querySelector('.KoTreeNode_teamColumn__nKJcT')!
-                  .children;
-              Team homeTeam = Team(
-                  name: teams[0].attributes['alt']!,
-                  imageUrl: teams[0].attributes['src']!);
-              Team awayTeam = Team(
-                  name: teams[1].attributes['alt']!,
-                  imageUrl: teams[1].attributes['src']!);
+        treeElement.querySelectorAll('.KoTreeNode_container__BErpF').forEach(
+          (container) {
+            final teams = container
+                .querySelector('.KoTreeNode_teamColumn__nKJcT')!
+                .children;
+            Team homeTeam = Team(
+                name: teams[0].attributes['alt']!,
+                imageUrl: teams[0].attributes['src']!);
+            Team awayTeam = Team(
+                name: teams[1].attributes['alt']!,
+                imageUrl: teams[1].attributes['src']!);
 
-              FixtureKnockout fixtureKnockout = FixtureKnockout(
-                  status: container.text, teams: [homeTeam, awayTeam]);
-              fixtures.add(fixtureKnockout);
-            },
-          );
-          KnockoutPhase knockoutPhase = KnockoutPhase(
-              roundName: roundNames[roundNameIndex].innerHtml,
-              fixtures: fixtures);
-          knockout!.add(knockoutPhase);
-          roundNameIndex++;
-        }
+            FixtureKnockout fixtureKnockout = FixtureKnockout(
+                score: container.text, teams: [homeTeam, awayTeam]);
+            fixtures.add(fixtureKnockout);
+          },
+        );
+        KnockoutPhase knockoutPhase = KnockoutPhase(
+            roundName: roundNames[roundNameIndex].innerHtml,
+            fixtures: fixtures);
+        knockout!.add(knockoutPhase);
+        roundNameIndex++;
+      }
     }
     //? ---------------------------------------getting last matches---------------------------------------
     final lastMatches =
@@ -245,7 +251,7 @@ class FixtureDetailsModel extends FixtureDetails {
       moreInfoLink = lastMatches[i].attributes['href']!;
       date = lastMatches[i].querySelector('a > time')!.innerHtml;
 
-      if (i < 5) {
+      if (i < lastMatches.length / 2) {
         homeTeamLastFixtures.add(Fixture(
             homeTeamName: homeTeamName,
             homeTeamLogo: homeTeamLogo,
@@ -288,7 +294,7 @@ class FixtureDetailsModel extends FixtureDetails {
           homeStatistic: homeStatistics[i].text,
           awayStatistic: awayStatistics[i].text));
     }
-   
+
     return FixtureDetailsModel(
         matchTime: matchTime,
         kickOff: kickOff,
@@ -306,318 +312,3 @@ class FixtureDetailsModel extends FixtureDetails {
         awayScore: awayScore);
   }
 }
-/*
-      matchTime: full time
-      kickOff: 14/07/2024
-      stadium: Bank of America Stadium
-      leagueName: Copa América
-      tvGuide: Mola TV (Italy)
-      statistics:  (null, null, null, null)
-      homeTeamLastFixtures: (      homeTeamName: Canada
-      homeTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/132.png
-      homeScore: 2
-      time: 
-      league: 
-      leagueLogo: 
-      date: 14/07
-      awayTeamName: Uruguay
-      awayTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/56.png
-      awayScore: 2
-      moreInfoLink: https://onefootball.com/en/match/2470856
-    ,       homeTeamName: Argentina
-      homeTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/55.png
-      homeScore: 2
-      time: 
-      league: 
-      leagueLogo: 
-      date: 10/07
-      awayTeamName: Canada
-      awayTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/132.png
-      awayScore: 0
-      moreInfoLink: https://onefootball.com/en/match/2470854
-    ,       homeTeamName: Venezuela
-      homeTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/591.png
-      homeScore: 1
-      time: 
-      league: 
-      leagueLogo: 
-      date: 06/07
-      awayTeamName: Canada
-      awayTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/132.png
-      awayScore: 1
-      moreInfoLink: https://onefootball.com/en/match/2470851
-    ,       homeTeamName: Canada
-      homeTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/132.png
-      homeScore: 0
-      time: 
-      league: 
-      leagueLogo: 
-      date: 30/06
-      awayTeamName: Chile
-      awayTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/35.png
-      awayScore: 0
-      moreInfoLink: https://onefootball.com/en/match/2470842
-    ,       homeTeamName: Peru
-      homeTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/127.png
-      homeScore: 0
-      time: 
-      league: 
-      leagueLogo: 
-      date: 25/06
-      awayTeamName: Canada
-      awayTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/132.png
-      awayScore: 1
-      moreInfoLink: https://onefootball.com/en/match/2470834
-    )
-      awayTeamLastFixtures: (      homeTeamName: Canada
-      homeTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/132.png
-      homeScore: 2
-      time: 
-      league: 
-      leagueLogo: 
-      date: 14/07
-      awayTeamName: Uruguay
-      awayTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/56.png
-      awayScore: 2
-      moreInfoLink: https://onefootball.com/en/match/2470856
-    ,       homeTeamName: Uruguay
-      homeTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/56.png
-      homeScore: 0
-      time: 
-      league: 
-      leagueLogo: 
-      date: 11/07
-      awayTeamName: Colombia
-      awayTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/118.png
-      awayScore: 1
-      moreInfoLink: https://onefootball.com/en/match/2470855
-    ,       homeTeamName: Uruguay
-      homeTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/56.png
-      homeScore: 0
-      time: 
-      league: 
-      leagueLogo: 
-      date: 07/07
-      awayTeamName: Brazil
-      awayTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/79.png
-      awayScore: 0
-      moreInfoLink: https://onefootball.com/en/match/2470852
-    ,       homeTeamName: USA
-      homeTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/81.png
-      homeScore: 0
-      time: 
-      league: 
-      leagueLogo: 
-      date: 02/07
-      awayTeamName: Uruguay
-      awayTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/56.png
-      awayScore: 1
-      moreInfoLink: https://onefootball.com/en/match/2470847
-    ,       homeTeamName: Uruguay
-      homeTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/56.png
-      homeScore: 5
-      time: 
-      league: 
-      leagueLogo: 
-      date: 28/06
-      awayTeamName: Bolivia
-      awayTeamLogo: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/164/840.png
-      awayScore: 0
-      moreInfoLink: https://onefootball.com/en/match/2470838
-    )
-      standings: (    nameStanding: Group A
-    teamPosition: (    gamesPlayed : 3
-    wins : 3
-    draws : 0
-    lose : 0
-    points : 9
-    team : name: Argentina imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/55.png
-    goalsDifference : 5
-
-    ,     gamesPlayed : 3
-    wins : 1
-    draws : 1
-    lose : 1
-    points : 4
-    team : name: Canada imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/132.png
-    goalsDifference : -1
-
-    ,     gamesPlayed : 3
-    wins : 0
-    draws : 2
-    lose : 1
-    points : 2
-    team : name: Chile imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/35.png
-    goalsDifference : -1
-
-    ,     gamesPlayed : 3
-    wins : 0
-    draws : 1
-    lose : 2
-    points : 1
-    team : name: Peru imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/127.png
-    goalsDifference : -3
-
-    )
-    ,     nameStanding: Group B
-    teamPosition: (    gamesPlayed : 3
-    wins : 3
-    draws : 0
-    lose : 0
-    points : 9
-    team : name: Venezuela imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/591.png
-    goalsDifference : 5
-
-    ,     gamesPlayed : 3
-    wins : 1
-    draws : 1
-    lose : 1
-    points : 4
-    team : name: Ecuador imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/101.png
-    goalsDifference : 1
-
-    ,     gamesPlayed : 3
-    wins : 1
-    draws : 1
-    lose : 1
-    points : 4
-    team : name: Mexico imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/69.png
-    goalsDifference : 0
-
-    ,     gamesPlayed : 3
-    wins : 0
-    draws : 0
-    lose : 3
-    points : 0
-    team : name: Jamaica imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/110.png
-    goalsDifference : -6
-
-    )
-    ,     nameStanding: Group C
-    teamPosition: (    gamesPlayed : 3
-    wins : 3
-    draws : 0
-    lose : 0
-    points : 9
-    team : name: Uruguay imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/56.png
-    goalsDifference : 8
-
-    ,     gamesPlayed : 3
-    wins : 2
-    draws : 0
-    lose : 1
-    points : 6
-    team : name: Panama imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/1022.png
-    goalsDifference : 1
-
-    ,     gamesPlayed : 3
-    wins : 1
-    draws : 0
-    lose : 2
-    points : 3
-    team : name: USA imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/81.png
-    goalsDifference : 0
-
-    ,     gamesPlayed : 3
-    wins : 0
-    draws : 0
-    lose : 3
-    points : 0
-    team : name: Bolivia imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/840.png
-    goalsDifference : -9
-
-    )
-    ,     nameStanding: Group D
-    teamPosition: (    gamesPlayed : 3
-    wins : 2
-    draws : 1
-    lose : 0
-    points : 7
-    team : name: Colombia imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/118.png
-    goalsDifference : 4
-
-    ,     gamesPlayed : 3
-    wins : 1
-    draws : 2
-    lose : 0
-    points : 5
-    team : name: Brazil imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/79.png
-    goalsDifference : 3
-
-    ,     gamesPlayed : 3
-    wins : 1
-    draws : 1
-    lose : 1
-    points : 4
-    team : name: Costa Rica imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/98.png
-    goalsDifference : -2
-
-    ,     gamesPlayed : 3
-    wins : 0
-    draws : 0
-    lose : 3
-    points : 0
-    team : name: Paraguay imageUrl: https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/47.png
-    goalsDifference : -5
-
-    )
-    )
-      knockout: (    fixtures : Quarter-finals
-    roundName : (    status: 1(4)-1(2)
-    teams: (      name: Argentina
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/55.png
-      ,       name: Ecuador
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/101.png
-      )
-    ,     status: 1(3)-1(4)
-    teams: (      name: Venezuela
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/591.png
-      ,       name: Canada
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/132.png
-      )
-    )
-    ,     fixtures : Semi-finals
-    roundName : (    status: 2-0
-    teams: (      name: Argentina
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/55.png
-      ,       name: Canada
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/132.png
-      )
-    )
-    ,     fixtures : Final
-    roundName : (    status: 1-0
-    teams: (      name: Argentina
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/55.png
-      ,       name: Colombia
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/118.png
-      )
-    )
-    ,     fixtures : Semi-finals
-    roundName : (    status: 0-1
-    teams: (      name: Uruguay
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/56.png
-      ,       name: Colombia
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/118.png
-      )
-    )
-    ,     fixtures : Quarter-finals
-    roundName : (    status: 5-0
-    teams: (      name: Colombia
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/118.png
-      ,       name: Panama
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/1022.png
-      )
-    ,     status: 0(4)-0(2)
-    teams: (      name: Uruguay
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/56.png
-      ,       name: Brazil
-      imageUrl: https://image-service.onefootball.com/transform?w=64&dpr=2&image=https://images.onefootball.com/icons/teams/56/79.png
-      )
-    )
-    )
-      homeTeam: 2
-      homeScore: 2
-      awayTeam: Team(Logo: Uruguay, https://image-service.onefootball.com/transform?w=128&dpr=2&image=https://images.onefootball.com/icons/teams/164/56.png)
-      awayScore: 2
-
- */

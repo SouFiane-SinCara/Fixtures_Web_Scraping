@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class MyColors {
@@ -7,7 +8,14 @@ class MyColors {
 
   static const Color grey1 = Color(0xFFC4C4C4);
   static const Color grey2 = Color(0xFF65656B);
-
+  static const LinearGradient gradient = LinearGradient(
+    colors: [
+      Color(0xFFED6B4E),
+      Color(0xFFF4A58A),
+    ],
+    end: Alignment.topLeft,
+    begin: Alignment.bottomRight,
+  );
   static const Color white = Colors.white;
   static const Color blue = Color(0xFF246BFD);
 }

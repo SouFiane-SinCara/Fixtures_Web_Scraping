@@ -24,11 +24,12 @@ void main() {
   });
   group('get fixtures remotely', () {
     String testDate = '2024-06-01';
+ 
     final successResponse = http.Response('{"data": []}', 200);
 
     test('should return fixtures models', () async {
       // Arrange
-      when(mockClient.get(Uri.parse(fixturesUrl))).thenAnswer((_) async {
+      when(mockClient.get(Uri.parse('$fixturesUrl?date=$testDate'))).thenAnswer((_) async {
         return successResponse;
       });
       when(mockConnectivity.checkConnectivity()).thenAnswer(
@@ -47,7 +48,7 @@ void main() {
 
     test('should throw an Exception', () async {
       // Arrange
-      when(mockClient.get(Uri.parse(fixturesUrl))).thenAnswer((_) async {
+      when(mockClient.get(Uri.parse('$fixturesUrl?date=$testDate'))).thenAnswer((_) async {
         return errorResponse;
       });
       when(mockConnectivity.checkConnectivity()).thenAnswer(

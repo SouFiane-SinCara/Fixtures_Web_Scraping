@@ -1,6 +1,8 @@
 import 'package:fixtures_app/core/constants/my_colors.dart';
 import 'package:fixtures_app/core/constants/my_text_style.dart';
+import 'package:fixtures_app/core/constants/routes_name.dart';
 import 'package:fixtures_app/core/helpers/spaces.dart';
+import 'package:fixtures_app/core/widgets/error_card.dart';
 import 'package:fixtures_app/core/widgets/loading.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
 import 'package:fixtures_app/features/fixtures/presentation/blocs/date_selection_cubit/date_selection_cubit.dart';
@@ -15,33 +17,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
- class FixturesPage extends StatelessWidget {
+class FixturesPage extends StatelessWidget {
   FixturesPage({super.key});
-  
-   List<List<Fixture>> fromFixturesToLeaguesWithFixtures(
-      List<Fixture>? fixtures) {
-    List<List<Fixture>> leaguesWithFixtures = [];
-
-    if (fixtures != null && fixtures.isNotEmpty) {
-      String currentLeague = fixtures.first.league;
-
-      List<Fixture> currentFixturesOfCurrentLeague = [];
-
-      for (int i = 0; i < fixtures.length; i++) {
-        if (currentLeague != fixtures[i].league) {
-          currentLeague = fixtures[i].league;
-          leaguesWithFixtures.add(currentFixturesOfCurrentLeague);
-          currentFixturesOfCurrentLeague = [];
-        }
-        currentFixturesOfCurrentLeague.add(fixtures[i]);
-      }
-      if (leaguesWithFixtures.isEmpty) {
-        leaguesWithFixtures.add(currentFixturesOfCurrentLeague);
-      }
-    }
-
-    return leaguesWithFixtures;
-  }
 
   String formatDateTime(DateTime dateTime) {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
@@ -50,15 +27,15 @@ import 'package:intl/intl.dart';
 
   Future<void> showCalendar(BuildContext context) async {
     final ThemeData theme = Theme.of(context);
+    DateSelectionCubit dateSelectionCubit =
+        BlocProvider.of<DateSelectionCubit>(context);
     final ThemeData datePickerTheme = theme.copyWith(
       colorScheme: const ColorScheme.light(
-        primary: MyColors.black1, // header background color
-        onPrimary: MyColors.white, // header text color
+        primary: Colors.white, // header background color
+        onPrimary: MyColors.black3, // header text color
         onSurface: MyColors.white, // body text color
         surface: MyColors.black2, // The background color of the calendar
-        
       ),
-    
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: Colors.white, // button text color
@@ -75,16 +52,37 @@ import 'package:intl/intl.dart';
             child: child!,
           );
         },
-        initialDate: BlocProvider.of<DateSelectionCubit>(context).dateTime);
+        initialDate: dateSelectionCubit.dateTime);
+
     if (selectedDate == null) return;
-    BlocProvider.of<DateSelectionCubit>(context).changeDate(selectedDate);
+    fixturesCubit.stopUpdating();
+    fixturesCubit.getFixtures(date: formatDateTime(selectedDate));
+    dateSelectionCubit.changeDate(selectedDate);
+  }
+
+  late FixturesCubit fixturesCubit;
+
+  List<Fixture> filterFixtures(
+      {required List<Fixture> fixtures, required String searching}) {
+    List<Fixture> filteredFixtures = [];
+    for (var element in fixtures) {
+      if (element.homeTeamName
+              .toLowerCase()
+              .contains(searching.toLowerCase()) ||
+          element.awayTeamName
+              .toLowerCase()
+              .contains(searching.toLowerCase())) {
+        filteredFixtures.add(element);
+      }
+    }
+    return filteredFixtures;
   }
 
   bool searchInShow = false;
   @override
   Widget build(BuildContext context) {
-    FixturesCubit fixturesCubit = BlocProvider.of<FixturesCubit>(context);
-
+    fixturesCubit = BlocProvider.of<FixturesCubit>(context);
+    fixturesCubit.getFixtures(date: '');
     return SafeArea(
       child: Scaffold(
         backgroundColor: MyColors.black2,
@@ -97,8 +95,6 @@ import 'package:intl/intl.dart';
               //! --------------------bar------------------
               StatefulBuilder(
                 builder: (context, setState) {
-                  print(
-                      'sizes: ${MediaQuery.sizeOf(context).height} x ${MediaQuery.sizeOf(context).width} ');
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -110,7 +106,7 @@ import 'package:intl/intl.dart';
                               height: 30.h,
                               margin: EdgeInsets.only(left: 20.w),
                               child: Image.asset(
-                                'lib/core/assets/images/splash/logo.png',
+                                'lib/core/assets/icons/logo.png',
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -169,7 +165,6 @@ import 'package:intl/intl.dart';
                               ),
                             ),
                       //?-------------search-----------------
-
                       searchInShow
                           ? GestureDetector(
                               onTap: () {
@@ -244,106 +239,87 @@ import 'package:intl/intl.dart';
               Expanded(
                 child: BlocBuilder<DateSelectionCubit, DateSelectionState>(
                   builder: (context, dateState) {
-                    fixturesCubit.getFixtures(
-                      date: dateState is DateSelectionUpdate
-                          ? formatDateTime(dateState.dateTime)
-                          : '',
-                    );
                     return BlocBuilder<FixtureSearchCubit, FixtureSearchState>(
                       builder: (context, searchState) {
                         return BlocBuilder<FixturesCubit, FixturesState>(
                           builder: (context, state) {
                             if (state is FixturesErrorState) {
-                              return Container(
-                                color: Colors.amber,
-                                width: double.infinity,
-                                height: 300.h,
-                                child: Text(state.errorMessage),
-                              );
+                              return ErrorCard(message: state.errorMessage);
                             } else if (state is FixturesLoadingState) {
                               return const Loading();
                             } else {
                               List<Fixture>? result =
                                   state is FixturesLoadedState
                                       ? state.fixtures
-                                      : state is FixtureInitialState
+                                      : state is FixtureUpdateState
                                           ? state.fixtures
                                           : [];
                               List<Fixture> filteredFixtures = [];
                               if (searchState is UpdateFixtureSearchState) {
-                                for (var element in result) {
-                                    if (element.homeTeamName
-                                            .toLowerCase()
-                                            .contains(searchState.searchInput
-                                                .toLowerCase()) ||
-                                        element.awayTeamName
-                                            .toLowerCase()
-                                            .contains(searchState.searchInput
-                                                .toLowerCase())) {
-                                      print(element.homeTeamName);
-                                      filteredFixtures.add(element);
-                                    }
-                                  }
+                                filteredFixtures = filterFixtures(
+                                    fixtures: result,
+                                    searching: searchState.searchInput);
                               } else {
                                 filteredFixtures = result;
                               }
-                              List<List<Fixture>> leaguesWithFixtures =
-                                  fromFixturesToLeaguesWithFixtures(
-                                      filteredFixtures);
+                              if (filteredFixtures.isNotEmpty) {
+                                String currentLeague =
+                                    filteredFixtures.first.league;
 
-                              return Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                                child: CustomScrollView(
-                                  slivers: [
-                                    SliverList(
-                                      delegate: SliverChildBuilderDelegate(
-                                        (context, leagueIndex) {
-                                          return Column(
-                                            children: [
-                                              ...leaguesWithFixtures[
-                                                      leagueIndex]
-                                                  .map((fixture) {
-                                                return Column(
-                                                  children: [
-                                                    if (fixture ==
-                                                        leaguesWithFixtures[
-                                                                leagueIndex]
-                                                            .first)
-                                                      Column(
-                                                        children: [
-                                                          LeagueCard(
-                                                            leagueImg: fixture
-                                                                .leagueLogo,
-                                                            leagueName:
-                                                                fixture.league,
-                                                          ),
-                                                          heightBox(10),
-                                                        ],
-                                                      ),
-                                                    FixtureCard(
-                                                      fixture: fixture,
-                                                    ),
-                                                    if (fixture ==
-                                                            leaguesWithFixtures[
-                                                                    leagueIndex]
-                                                                .last &&
-                                                        leagueIndex ==
-                                                            leaguesWithFixtures
-                                                                    .length -
-                                                                1)
-                                                      heightBox(300)
-                                                  ],
-                                                );
-                                              }),
-                                            ],
-                                          );
-                                        },
-                                        childCount: leaguesWithFixtures.length,
+                                return ListView.builder(
+                                  itemCount: filteredFixtures.length,
+                                  itemBuilder: (context, index) {
+                                    Fixture fixture = filteredFixtures[index];
+                                    bool showLeagueCard = false;
+
+                                    if (currentLeague != fixture.league ||
+                                        index == 0) {
+                                      currentLeague = fixture.league;
+                                      showLeagueCard = true;
+                                    }
+
+                                    return Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 20.w),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          if (showLeagueCard)
+                                            LeagueCard(
+                                              leagueImg: fixture.leagueLogo,
+                                              leagueName: fixture.league,
+                                            ),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              String date = dateState
+                                                      is DateSelectionUpdate
+                                                  ? formatDateTime(
+                                                      dateState.dateTime)
+                                                  : '';
+                                              fixturesCubit.stopUpdating();
+                                              await Navigator.pushNamed(
+                                                context,
+                                                RoutesName
+                                                    .fixtureDetailsPageName,
+                                                arguments: fixture.moreInfoLink,
+                                              );
+
+                                              fixturesCubit.getFixtures(
+                                                  date: date);
+                                            },
+                                            child:
+                                                FixtureCard(fixture: fixture),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              );
+                                    );
+                                  },
+                                );
+                              } else {
+                                return const ErrorCard(
+                                    message: "no fixture found");
+                              }
                             }
                           },
                         );

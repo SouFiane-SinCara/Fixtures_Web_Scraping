@@ -8,7 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FixtureCard extends StatelessWidget {
   final Fixture fixture;
-  const FixtureCard({super.key, required this.fixture});
+  final bool? showDate;
+  const FixtureCard({super.key, required this.fixture, this.showDate});
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +131,7 @@ class FixtureCard extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 2.w),
             child: FittedBox(
               child: Text(
-                fixture.time,
+                showDate != null ? fixture.date : fixture.time,
                 textAlign: TextAlign.center,
                 style: MyTextStyle.whiteSemiBold.copyWith(fontSize: 14.sp),
                 maxLines: 1,

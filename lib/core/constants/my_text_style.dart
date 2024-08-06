@@ -13,10 +13,10 @@ class MyTextStyle {
       fontStyle: FontStyle.normal,
       color: MyColors.grey1,
       fontWeight: FontWeight.w500);
-
+  
   static const TextStyle whiteRegular = TextStyle(
       fontFamily: 'sourceSansPro',
       fontStyle: FontStyle.normal,
       color: MyColors.white,
-      fontWeight: FontWeight.w400);
+      fontWeight: FontWeight.w300);
 }

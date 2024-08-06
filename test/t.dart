@@ -30,11 +30,10 @@ Future<void> main() async {
       Document standingsDocument = html_parser.parse(standingsResponse.body);
       Document knockoutDocument = html_parser.parse(knockoutResponse.body);
 
-      FixtureDetailsModel fixtureDetailsModel = FixtureDetailsModel.fromHtml(
+      FixtureDetailsModel.fromHtml(
           fixtureDetailsHtml: fixtureDetailsDocument.body!,
           standingsHtml: standingsDocument.body,
           knockoutHtml: knockoutDocument.body);
-      print(fixtureDetailsModel);
     } else {
       throw ServerException();
     }
