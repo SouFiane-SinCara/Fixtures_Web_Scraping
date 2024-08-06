@@ -23,21 +23,26 @@ void main() {
           homeTeamName: "Manchester United",
           homeTeamLogo: "man_utd_logo.png",
           homeScore: '2',
+          moreInfoLink: '/en/match/2515122',
           time: "90'",
           league: "Premier League",
           date: "2024-06-26",
           awayTeamName: "Liverpool",
           awayTeamLogo: "liverpool_logo.png",
+          leagueLogo: '',
+
           awayScore: '1'),
       Fixture(
           homeTeamName: "Real Madrid",
           homeTeamLogo: "real_madrid_logo.png",
+          moreInfoLink: '/en/match/2509332',
           homeScore: '3',
           time: "FT",
           league: "La Liga",
           date: "2024-06-27",
           awayTeamName: "Barcelona",
           awayTeamLogo: "barcelona_logo.png",
+          leagueLogo: '',
           awayScore: '2')
     ];
     String testDate = '2024-06-25';
@@ -49,7 +54,7 @@ void main() {
       //act
       final result = await getFixturesUseCase(date: testDate);
       //assert
-      expect(result, Right(fixturesTest));
+      expect(result, equals(Right(fixturesTest)));
     });
     final failure = ServerFailure();
     test("should return a failure", () async {
@@ -60,7 +65,7 @@ void main() {
       //act
       final result = await getFixturesUseCase(date: testDate);
       //assert
-      expect(result, Left(failure));
+      expect(result, equals(Left(failure)));
     });
   });
 }

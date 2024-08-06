@@ -2,30 +2,53 @@ import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
 import 'package:html/dom.dart';
 
 class FixtureModel extends Fixture {
-  const FixtureModel(
-      {required super.homeTeamName,
-      required super.homeTeamLogo,
-      required super.homeScore,
-      required super.time,
-      required super.league,
-      required super.date,
-      required super.awayTeamName,
-      required super.awayTeamLogo,
-      required super.awayScore});
-  factory FixtureModel.fromHtml(Element html, String date, String nameLeague) {
+  const FixtureModel({
+    required super.homeTeamName,
+    required super.homeTeamLogo,
+    required super.homeScore,
+    required super.time,
+    required super.leagueLogo,
+    required super.league,
+    required super.date,
+    required super.awayTeamName,
+    required super.awayTeamLogo,
+    required super.awayScore,
+    required super.moreInfoLink,
+  });
+  factory FixtureModel.fromHtml(
+      Element html, String date, String nameLeague, String logoLeague) {
     final String homeTeamName;
     String? homeTeamLogo;
     final String homeScore;
-    final String? time;
+    String? time;
     final String league;
     final String awayTeamName;
+    final String moreInfoLink;
     String? awayTeamLogo;
     final String awayScore;
-    final Element? getTime = html.querySelector(
-        'a > article > div > div.SimpleMatchCard_simpleMatchCard__matchContent__prwTf > span');
-    time = getTime!.innerHtml.startsWith('<time')
-        ? getTime.firstChild!.text
-        : getTime.innerHtml;
+    String determineMatchTime(Element html) {
+      Element? normalTime = html.querySelector(
+          '.SimpleMatchCard_simpleMatchCard__infoMessage___NJqW');
+      if (normalTime != null) {
+        return normalTime.text == 'Pens' ? 'Full time' : normalTime.text;
+      }
+
+      Element? playingTime =
+          html.querySelector('.SimpleMatchCard_simpleMatchCard__live__kg0bW');
+      if (playingTime != null) {
+        return playingTime.text;
+      }
+
+      Element? warningMessage = html.querySelector(
+          '.SimpleMatchCard_simpleMatchCard__warningMessage__7lDK2');
+      if (warningMessage != null) {
+        return warningMessage.text;
+      }
+
+      return 'Full time';
+    }
+
+    time = determineMatchTime(html);
     league = nameLeague;
     final towTeams = html
         .querySelector(
@@ -90,12 +113,16 @@ class FixtureModel extends Fixture {
       awayTeamLogo = awayImagesSrc[imagesSrcIndex].attributes['srcset'];
       break;
     }
+    String suffixMoreInfoLink = html.querySelector('a')!.attributes['href']!;
+    moreInfoLink = 'https://onefootball.com$suffixMoreInfoLink';
     return FixtureModel(
         homeTeamName: homeTeamName,
         homeTeamLogo: homeTeamLogo!,
         homeScore: homeScore,
-        time: time!,
+        time: time,
         league: league,
+        leagueLogo: logoLeague,
+        moreInfoLink: moreInfoLink,
         date: date,
         awayTeamName: awayTeamName,
         awayTeamLogo: awayTeamLogo!,

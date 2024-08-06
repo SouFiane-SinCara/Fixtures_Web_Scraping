@@ -1,14 +1,13 @@
 import 'package:dartz/dartz.dart';
-import 'package:fixtures_app/core/failures/failures.dart';
 import 'package:fixtures_app/features/fixtures/data/data_sources/fixtures_remote_data_src.dart';
 import 'package:fixtures_app/features/fixtures/data/repositories_impl/fixtures_repository_impl.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
 import 'package:fixtures_app/features/fixtures/domain/repositories/fixtures_repository.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:fixtures_app/core/exceptions/exceptions.dart';
 
+import '../../../../core/constants/expected_fixture_details_model.dart';
 import '../../../../core/helpers/test_helper.mocks.dart';
 
 void main() {
@@ -22,14 +21,16 @@ void main() {
     },
   );
   group(
-    'fixtures repository',
+    'get fixtures repository',
     () {
       List<Fixture> fixturesTest = const [
         Fixture(
             homeTeamName: "Manchester United",
             homeTeamLogo: "man_utd_logo.png",
+            moreInfoLink: '/en/match/2509332',
             homeScore: '2',
             time: "90'",
+            leagueLogo: '',
             league: "Premier League",
             date: "2024-06-26",
             awayTeamName: "Liverpool",
@@ -38,7 +39,9 @@ void main() {
         Fixture(
             homeTeamName: "Real Madrid",
             homeTeamLogo: "real_madrid_logo.png",
+            leagueLogo: '',
             homeScore: '3',
+            moreInfoLink: '/en/match/2515122',
             time: "FT",
             league: "La Liga",
             date: "2024-06-27",
@@ -78,6 +81,76 @@ void main() {
           );
           //act
           final result = await fixturesRepository.getFixtures(date: testDate);
+          //assert
+          expect(result, isA<Left>());
+        },
+      );
+    },
+  );
+  group(
+    'get fixture details',
+    () {
+      const String testFixtureDetailsUrl =
+          'https://onefootball.com/en/match/2470856';
+
+      test(
+        'should return fixture details',
+        () async {
+          const successResponse = Right(expectedFixtureDetailsModel);
+          //AAA
+          //arrange
+          when(mockFixturesRemoteDataSource.getFixtureDetails(
+                  fixtureDetailsUrl: testFixtureDetailsUrl))
+              .thenAnswer(
+            (_) async {
+              return expectedFixtureDetailsModel;
+            },
+          );
+          //act
+          final result = await fixturesRepository.getFixtureDetails(
+              fixtureDetailsUrl: testFixtureDetailsUrl);
+          //assert
+          expect(result, equals(successResponse));
+        },
+      );
+
+      test(
+        'should return no internet failure',
+        () async {
+          //AAA
+          //arrange
+          when(mockFixturesRemoteDataSource.getFixtureDetails(
+                  fixtureDetailsUrl: testFixtureDetailsUrl))
+              .thenAnswer(
+            (_) async {
+              throw NoInternetConnectionException();
+            },
+          );
+          //act
+
+          final result = await fixturesRepository.getFixtureDetails(
+              fixtureDetailsUrl: testFixtureDetailsUrl);
+          //assert
+          expect(result, isA<Left>());
+        },
+      );
+
+      test(
+        'should return Server failure',
+        () async {
+          //AAA
+          //arrange
+          when(mockFixturesRemoteDataSource.getFixtureDetails(
+                  fixtureDetailsUrl: testFixtureDetailsUrl))
+              .thenAnswer(
+            (_) async {
+              throw ServerException();
+            },
+          );
+          //act
+
+          final result = await fixturesRepository.getFixtureDetails(
+              fixtureDetailsUrl: testFixtureDetailsUrl);
           //assert
           expect(result, isA<Left>());
         },

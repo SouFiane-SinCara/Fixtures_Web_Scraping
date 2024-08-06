@@ -5,6 +5,7 @@ import 'package:fixtures_app/core/failures/failures.dart';
 import 'package:fixtures_app/core/helpers/data_types.dart';
 import 'package:fixtures_app/features/fixtures/data/data_sources/fixtures_remote_data_src.dart';
 import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
+import 'package:fixtures_app/features/fixtures/domain/entities/fixture_details.dart';
 import 'package:fixtures_app/features/fixtures/domain/repositories/fixtures_repository.dart';
 
 class FixturesRepositoryImpl extends FixturesRepository {
@@ -18,10 +19,28 @@ class FixturesRepositoryImpl extends FixturesRepository {
       List<Fixture> fixtures =
           await fixturesRemoteDataSource.getFixtures(date: date);
       return Right(fixtures);
+    } on NoInternetConnectionException {
+      return Left(NoInternetConnectionFailure());
     } on ServerException {
       return Left(ServerFailure());
-    } on Exception {
+    } catch (e) {
+      return Left(GeneraleFailure());
+    }
+  }
+
+  @override
+  FutureEither<FixtureDetails> getFixtureDetails(
+      {required String fixtureDetailsUrl}) async {
+    try {
+      FixtureDetails fixtureDetails = await fixturesRemoteDataSource
+          .getFixtureDetails(fixtureDetailsUrl: fixtureDetailsUrl);
+      return Right(fixtureDetails);
+    } on NoInternetConnectionException {
+      return Left(NoInternetConnectionFailure());
+    } on ServerException {
       return Left(ServerFailure());
+    } catch (e) {
+      return Left(GeneraleFailure());
     }
   }
 }
