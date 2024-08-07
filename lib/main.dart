@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     MyRoutes myRoutes = MyRoutes();
     return ScreenUtilInit(
+      
       designSize: const Size(360, 690),
       builder: (context, child) => MultiBlocProvider(
         providers: [

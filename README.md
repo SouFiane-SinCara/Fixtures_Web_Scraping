@@ -1,17 +1,15 @@
-# fixtures_app
+# onPitch
 
-A new Flutter project.
+onPitch is a Flutter application that provides live football match updates, detailed statistics, and current league tables. The app uses web scraping to fetch data from [OneFootball](https://onefootball.com/en/matches).
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- **Live Match Updates:** Get real-time updates on football matches from around the world.
+- **Match Details:** Access detailed statistics for each match, including team line-ups, goal scorers, and more.
+- **League Tables:** View the latest standings for various football leagues.
+- **Knockout Stages:** Follow knockout stage matches and results, if available.
 
-A few resources to get you started if this is your first Flutter project:
+## How It Works
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+onPitch uses web scraping to gather data from [OneFootball](https://onefootball.com/en/matches). The app fetches information such as match schedules, team statistics, league standings, and knockout stage details directly from the website.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# Fixtures_Web_Scraping
