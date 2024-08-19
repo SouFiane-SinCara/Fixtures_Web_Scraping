@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fixtures_app/core/constants/my_colors.dart';
 import 'package:fixtures_app/core/constants/my_text_style.dart';
 import 'package:fixtures_app/core/helpers/spaces.dart';
@@ -21,125 +20,86 @@ class FixtureCard extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(16.r)),
       ),
       margin: EdgeInsets.only(bottom: 10.h),
+      padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 5.w),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Expanded(
+            flex: 2,
+            child: teamAndLogo(
+                logo: fixture.homeTeamLogo, name: fixture.homeTeamName),
+          ),
           widthBox(10),
-          SizedBox(
-            width: 50.w,
-            height: 40.h,
-            child: Stack(
-              alignment: Alignment.center,
+          Expanded(
+            flex: 1,
+            child: Column(
               children: [
-                Positioned(
-                  left: 15.w,
-                  width: 30.w,
-                  height: 40.h,
-                  child: Image.network(
-                    fixture.awayTeamLogo,
-                    fit: BoxFit.fill,
+                if (fixture.awayScore != '' && fixture.awayScore != '')
+                  Expanded(
+                    flex: 2,
+                    child: FittedBox(
+                      child: Text(
+                        '${fixture.homeScore} - ${fixture.awayScore}',
+                        style: MyTextStyle.whiteSemiBold,
+                      ),
+                    ),
                   ),
-                ),
-                Positioned(
-                  left: 0.w,
-                  width: 30.w,
-                  height: 40.h,
-                  child: Image.network(
-                    fixture.homeTeamLogo,
-                    fit: BoxFit.fill,
+                if (!(fixture.date == '' && fixture.time == ''))
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: FittedBox(
+                        child: Text(
+                          showDate != null ? fixture.date : fixture.time,
+                          style: MyTextStyle.whiteRegular,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
               ],
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 80.w,
-                height: 30.h,
-                margin: EdgeInsets.symmetric(horizontal: 5.w),
-                child: FittedBox(
-                  child: Text(
-                    fixture.homeTeamName,
-                    style: MyTextStyle.whiteSemiBold,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              fixture.awayScore == ''
-                  ? const SizedBox()
-                  : SizedBox(
-                      width: 90.w,
-                      height: 25.h,
-                      child: AutoSizeText(
-                        fixture.homeScore,
-                        style:
-                            MyTextStyle.whiteSemiBold.copyWith(fontSize: 25.sp),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-            ],
-          ),
-          widthBox(5),
-          FittedBox(
-            child: Text(
-              'VS',
-              style: MyTextStyle.whiteSemiBold.copyWith(fontSize: 15.sp),
-            ),
-          ),
-          widthBox(5),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 80.w,
-                height: 30.h,
-                margin: EdgeInsets.symmetric(horizontal: 5.w),
-                child: FittedBox(
-                  child: Text(
-                    fixture.awayTeamName,
-                    style: MyTextStyle.whiteSemiBold,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-              fixture.awayScore == ''
-                  ? const SizedBox()
-                  : SizedBox(
-                      width: 90.w,
-                      height: 25.h,
-                      child: AutoSizeText(
-                        fixture.awayScore,
-                        style:
-                            MyTextStyle.whiteSemiBold.copyWith(fontSize: 25.sp),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-            ],
-          ),
-          Container(
-            decoration: BoxDecoration(
-                color: MyColors.black1,
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(16.r),
-                    bottomRight: Radius.circular(16.r))),
-            width: 50.w,
-            height: 60.h,
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 2.w),
-            child: FittedBox(
-              child: Text(
-                showDate != null ? fixture.date : fixture.time,
-                textAlign: TextAlign.center,
-                style: MyTextStyle.whiteSemiBold.copyWith(fontSize: 14.sp),
-                maxLines: 1,
-              ),
-            ),
-          )
+          widthBox(10),
+          Expanded(
+              flex: 2,
+              child: teamAndLogo(
+                  logo: fixture.awayTeamLogo, name: fixture.awayTeamName)),
         ],
       ),
+    );
+  }
+
+  Column teamAndLogo({required String name, required String logo}) {
+    return Column(
+      children: [
+        Expanded(
+          flex: 2,
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: MyColors.black1,
+              border: Border.all(color: MyColors.black3, width: 2),
+            ),
+            child: Image.network(
+              logo,
+            ),
+          ),
+        ),
+        heightBox(5),
+        Expanded(
+          flex: 1,
+          child: Container(
+            alignment: Alignment.center,
+            child: FittedBox(
+              child: Text(
+                name,
+                style: MyTextStyle.whiteSemiBold,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 }
