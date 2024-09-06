@@ -17,9 +17,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
-class FixturesPage extends StatelessWidget {
-  FixturesPage({super.key});
+class FixturesPage extends StatefulWidget {
+  const FixturesPage({super.key});
 
+  @override
+  State<FixturesPage> createState() => _FixturesPageState();
+}
+
+class _FixturesPageState extends State<FixturesPage> {
   String formatDateTime(DateTime dateTime) {
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     return formatter.format(dateTime);
@@ -72,13 +77,32 @@ class FixturesPage extends StatelessWidget {
           element.awayTeamName
               .toLowerCase()
               .contains(searching.toLowerCase())) {
+        print(searching);
         filteredFixtures.add(element);
       }
     }
     return filteredFixtures;
   }
 
+  List<List<Fixture>> fixturesToLeaguesWithFixtures(
+      {required List<Fixture> fixtures}) {
+    List<List<Fixture>> leaguesWithFixtures = [];
+    String currentFixtureLeague = fixtures.first.league;
+    List<Fixture> fixturesOfLeague = [];
+    fixturesOfLeague.add(fixtures.first);
+    for (int i = 1; i < fixtures.length; i++) {
+      if (currentFixtureLeague != fixtures[i].league) {
+        leaguesWithFixtures.add(fixturesOfLeague);
+        fixturesOfLeague = [];
+        currentFixtureLeague = fixtures[i].league;
+      }
+      fixturesOfLeague.add(fixtures[i]);
+    }
+    return leaguesWithFixtures;
+  }
+
   bool searchInShow = false;
+
   @override
   Widget build(BuildContext context) {
     fixturesCubit = BlocProvider.of<FixturesCubit>(context);
@@ -262,60 +286,70 @@ class FixturesPage extends StatelessWidget {
                               } else {
                                 filteredFixtures = result;
                               }
+
                               if (filteredFixtures.isNotEmpty) {
-                                String currentLeague =
-                                    filteredFixtures.first.league;
-
-                                return ListView.builder(
-                                  itemCount: filteredFixtures.length,
-                                  itemBuilder: (context, index) {
-                                    Fixture fixture = filteredFixtures[index];
-                                    bool showLeagueCard = false;
-
-                                    if (currentLeague != fixture.league ||
-                                        index == 0) {
-                                      currentLeague = fixture.league;
-                                      showLeagueCard = true;
-                                    }
-
-                                    return Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 20.w),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          if (showLeagueCard)
+                                List<List<Fixture>> leaguesWithFixtures =
+                                    fixturesToLeaguesWithFixtures(
+                                        fixtures: filteredFixtures);
+                                if (leaguesWithFixtures.isEmpty) {
+                                  return const ErrorCard(
+                                      message: "no fixture found");
+                                } else {
+                                  return ListView.builder(
+                                    itemCount: leaguesWithFixtures.length,
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 20.w),
+                                        child: Column(
+                                          children: [
                                             LeagueCard(
-                                              leagueImg: fixture.leagueLogo,
-                                              leagueName: fixture.league,
-                                            ),
-                                          GestureDetector(
-                                            onTap: () async {
-                                              String date = dateState
-                                                      is DateSelectionUpdate
-                                                  ? formatDateTime(
-                                                      dateState.dateTime)
-                                                  : '';
-                                              fixturesCubit.stopUpdating();
-                                              await Navigator.pushNamed(
-                                                context,
-                                                RoutesName
-                                                    .fixtureDetailsPageName,
-                                                arguments: fixture.moreInfoLink,
-                                              );
+                                                leagueImg:
+                                                    leaguesWithFixtures[index]
+                                                        .first
+                                                        .leagueLogo,
+                                                leagueName:
+                                                    leaguesWithFixtures[index]
+                                                        .first
+                                                        .league),
+                                            Column(
+                                              children:
+                                                  leaguesWithFixtures[index]
+                                                      .map(
+                                                (fixture) {
+                                                  return GestureDetector(
+                                                    onTap: () async {
+                                                      String date = dateState
+                                                              is DateSelectionUpdate
+                                                          ? formatDateTime(
+                                                              dateState
+                                                                  .dateTime)
+                                                          : '';
+                                                      fixturesCubit
+                                                          .stopUpdating();
+                                                      await Navigator.pushNamed(
+                                                        context,
+                                                        RoutesName
+                                                            .fixtureDetailsPageName,
+                                                        arguments: fixture
+                                                            .moreInfoLink,
+                                                      );
 
-                                              fixturesCubit.getFixtures(
-                                                  date: date);
-                                            },
-                                            child:
-                                                FixtureCard(fixture: fixture),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
+                                                      fixturesCubit.getFixtures(
+                                                          date: date);
+                                                    },
+                                                    child: FixtureCard(
+                                                        fixture: fixture),
+                                                  );
+                                                },
+                                              ).toList(),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }
                               } else {
                                 return const ErrorCard(
                                     message: "no fixture found");
