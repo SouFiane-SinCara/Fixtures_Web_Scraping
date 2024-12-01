@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture_knockout.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture_knockout.dart';
 
 class KnockoutPhase extends Equatable {
   final String roundName;

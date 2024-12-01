@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/knockout_phase.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/standing.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/statistic.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/team.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/knockout_phase.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/standing.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/statistic.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/team.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture.dart';
 
 class FixtureDetails extends Equatable {
   final String kickOff;

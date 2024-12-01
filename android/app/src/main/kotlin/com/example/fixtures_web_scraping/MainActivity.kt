@@ -1,4 +1,4 @@
-package com.example.fixtures_app
+package com.example.fixtures_web_scraping
 
 import io.flutter.embedding.android.FlutterActivity
 

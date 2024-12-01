@@ -1,6 +1,6 @@
-import 'package:fixtures_app/core/constants/my_colors.dart';
-import 'package:fixtures_app/core/constants/my_text_style.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture_knockout.dart';
+import 'package:fixtures_web_scraping/core/constants/my_colors.dart';
+import 'package:fixtures_web_scraping/core/constants/my_text_style.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture_knockout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

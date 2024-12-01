@@ -1,4 +1,4 @@
-import 'package:fixtures_app/core/constants/my_colors.dart';
+import 'package:fixtures_web_scraping/core/constants/my_colors.dart';
 import 'package:flutter/material.dart';
 
 class Loading extends StatelessWidget {

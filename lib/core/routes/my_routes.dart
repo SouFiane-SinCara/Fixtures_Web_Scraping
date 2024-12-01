@@ -1,6 +1,6 @@
-import 'package:fixtures_app/core/constants/routes_name.dart';
-import 'package:fixtures_app/features/fixtures/presentation/pages/fixture_details_page.dart';
-import 'package:fixtures_app/features/fixtures/presentation/pages/fixtures_page.dart';
+import 'package:fixtures_web_scraping/core/constants/routes_name.dart';
+import 'package:fixtures_web_scraping/features/fixtures/presentation/pages/fixture_details_page.dart';
+import 'package:fixtures_web_scraping/features/fixtures/presentation/pages/fixtures_page.dart';
 import 'package:flutter/material.dart';
  
 class MyRoutes {

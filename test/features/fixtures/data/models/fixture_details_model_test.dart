@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:fixtures_app/features/fixtures/data/models/fixture_details_model.dart';
+import 'package:fixtures_web_scraping/features/fixtures/data/models/fixture_details_model.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:html/dom.dart';

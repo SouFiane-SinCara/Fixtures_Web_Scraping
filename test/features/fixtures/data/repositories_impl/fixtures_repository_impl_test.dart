@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
-import 'package:fixtures_app/features/fixtures/data/data_sources/fixtures_remote_data_src.dart';
-import 'package:fixtures_app/features/fixtures/data/repositories_impl/fixtures_repository_impl.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
-import 'package:fixtures_app/features/fixtures/domain/repositories/fixtures_repository.dart';
+import 'package:fixtures_web_scraping/features/fixtures/data/data_sources/fixtures_remote_data_src.dart';
+import 'package:fixtures_web_scraping/features/fixtures/data/repositories_impl/fixtures_repository_impl.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/repositories/fixtures_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:fixtures_app/core/exceptions/exceptions.dart';
+import 'package:fixtures_web_scraping/core/exceptions/exceptions.dart';
 
 import '../../../../core/constants/expected_fixture_details_model.dart';
 import '../../../../core/helpers/test_helper.mocks.dart';

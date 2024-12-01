@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/team.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/team.dart';
 
 class TeamPosition extends Equatable {
   final int gamesPlayed;

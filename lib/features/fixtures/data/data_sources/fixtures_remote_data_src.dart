@@ -1,13 +1,13 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:fixtures_app/core/constants/web_const.dart';
-import 'package:fixtures_app/features/fixtures/data/models/fixture_details_model.dart';
-import 'package:fixtures_app/features/fixtures/data/models/fixture_model.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture_details.dart';
+import 'package:fixtures_web_scraping/core/constants/web_const.dart';
+import 'package:fixtures_web_scraping/features/fixtures/data/models/fixture_details_model.dart';
+import 'package:fixtures_web_scraping/features/fixtures/data/models/fixture_model.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture_details.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as html_parser;
 import 'package:html/dom.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
-import 'package:fixtures_app/core/exceptions/exceptions.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture.dart';
+import 'package:fixtures_web_scraping/core/exceptions/exceptions.dart';
 
 abstract class FixturesRemoteDataSource {
   Future<List<Fixture>> getFixtures({required String date});

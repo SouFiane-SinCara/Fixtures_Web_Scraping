@@ -2,10 +2,10 @@ import 'dart:async'; // Importing the dart:async library
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fixtures_app/core/constants/web_const.dart';
-import 'package:fixtures_app/core/failures/failures.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
-import 'package:fixtures_app/features/fixtures/domain/use_cases/get_fixtures_use_case.dart';
+import 'package:fixtures_web_scraping/core/constants/web_const.dart';
+import 'package:fixtures_web_scraping/core/failures/failures.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/use_cases/get_fixtures_use_case.dart';
 part 'fixtures_state.dart';
 
 class FixturesCubit extends Cubit<FixturesState> {

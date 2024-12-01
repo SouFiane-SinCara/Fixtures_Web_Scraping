@@ -1,11 +1,11 @@
-import 'package:fixtures_app/features/fixtures/data/models/fixture_details_model.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture_knockout.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/knockout_phase.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/standing.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/statistic.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/team.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/team_position.dart';
+import 'package:fixtures_web_scraping/features/fixtures/data/models/fixture_details_model.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture_knockout.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/knockout_phase.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/standing.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/statistic.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/team.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/team_position.dart';
 
 const FixtureDetailsModel expectedFixtureDetailsModel = FixtureDetailsModel(
     matchTime: "full time",

@@ -9,14 +9,14 @@ import 'dart:typed_data' as _i11;
 
 import 'package:connectivity_plus/connectivity_plus.dart' as _i13;
 import 'package:dartz/dartz.dart' as _i2;
-import 'package:fixtures_app/core/failures/failures.dart' as _i7;
-import 'package:fixtures_app/features/fixtures/data/data_sources/fixtures_remote_data_src.dart'
+import 'package:fixtures_web_scraping/core/failures/failures.dart' as _i7;
+import 'package:fixtures_web_scraping/features/fixtures/data/data_sources/fixtures_remote_data_src.dart'
     as _i12;
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart'
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture.dart'
     as _i8;
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture_details.dart'
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture_details.dart'
     as _i4;
-import 'package:fixtures_app/features/fixtures/domain/repositories/fixtures_repository.dart'
+import 'package:fixtures_web_scraping/features/fixtures/domain/repositories/fixtures_repository.dart'
     as _i5;
 import 'package:http/http.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;

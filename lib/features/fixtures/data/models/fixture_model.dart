@@ -1,4 +1,4 @@
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture.dart';
 import 'package:html/dom.dart';
 
 class FixtureModel extends Fixture {

@@ -1,5 +1,5 @@
-import 'package:fixtures_app/core/constants/my_text_style.dart';
-import 'package:fixtures_app/core/helpers/spaces.dart';
+import 'package:fixtures_web_scraping/core/constants/my_text_style.dart';
+import 'package:fixtures_web_scraping/core/helpers/spaces.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

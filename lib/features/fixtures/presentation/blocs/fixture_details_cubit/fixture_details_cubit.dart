@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:fixtures_app/core/constants/web_const.dart';
-import 'package:fixtures_app/core/failures/failures.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture_details.dart';
-import 'package:fixtures_app/features/fixtures/domain/use_cases/get_fixture_details_use_case.dart';
+import 'package:fixtures_web_scraping/core/constants/web_const.dart';
+import 'package:fixtures_web_scraping/core/failures/failures.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture_details.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/use_cases/get_fixture_details_use_case.dart';
 
 part 'fixture_details_state.dart';
 

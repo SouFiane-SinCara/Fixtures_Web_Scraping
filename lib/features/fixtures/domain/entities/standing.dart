@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 
-import 'package:fixtures_app/features/fixtures/domain/entities/team_position.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/team_position.dart';
 
 class Standing extends Equatable {
   final String nameStanding;

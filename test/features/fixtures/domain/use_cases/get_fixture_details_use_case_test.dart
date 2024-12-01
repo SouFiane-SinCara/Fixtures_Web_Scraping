@@ -1,10 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:fixtures_app/core/failures/failures.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture_details.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/team.dart';
-import 'package:fixtures_app/features/fixtures/domain/repositories/fixtures_repository.dart';
-import 'package:fixtures_app/features/fixtures/domain/use_cases/get_fixture_details_use_case.dart';
+import 'package:fixtures_web_scraping/core/failures/failures.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture_details.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/team.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/repositories/fixtures_repository.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/use_cases/get_fixture_details_use_case.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 

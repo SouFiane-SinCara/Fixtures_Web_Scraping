@@ -1,15 +1,15 @@
-import 'package:fixtures_app/core/constants/my_colors.dart';
-import 'package:fixtures_app/core/constants/my_text_style.dart';
-import 'package:fixtures_app/core/constants/routes_name.dart';
-import 'package:fixtures_app/core/helpers/spaces.dart';
-import 'package:fixtures_app/core/widgets/error_card.dart';
-import 'package:fixtures_app/core/widgets/loading.dart';
-import 'package:fixtures_app/features/fixtures/domain/entities/fixture.dart';
-import 'package:fixtures_app/features/fixtures/presentation/blocs/date_selection_cubit/date_selection_cubit.dart';
-import 'package:fixtures_app/features/fixtures/presentation/blocs/fixture_search_cubit/fixture_search_cubit.dart';
-import 'package:fixtures_app/features/fixtures/presentation/blocs/fixtures_cubit/fixtures_cubit.dart';
-import 'package:fixtures_app/features/fixtures/presentation/widgets/fixture_card.dart';
-import 'package:fixtures_app/features/fixtures/presentation/widgets/league_card.dart';
+import 'package:fixtures_web_scraping/core/constants/my_colors.dart';
+import 'package:fixtures_web_scraping/core/constants/my_text_style.dart';
+import 'package:fixtures_web_scraping/core/constants/routes_name.dart';
+import 'package:fixtures_web_scraping/core/helpers/spaces.dart';
+import 'package:fixtures_web_scraping/core/widgets/error_card.dart';
+import 'package:fixtures_web_scraping/core/widgets/loading.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture.dart';
+import 'package:fixtures_web_scraping/features/fixtures/presentation/blocs/date_selection_cubit/date_selection_cubit.dart';
+import 'package:fixtures_web_scraping/features/fixtures/presentation/blocs/fixture_search_cubit/fixture_search_cubit.dart';
+import 'package:fixtures_web_scraping/features/fixtures/presentation/blocs/fixtures_cubit/fixtures_cubit.dart';
+import 'package:fixtures_web_scraping/features/fixtures/presentation/widgets/fixture_card.dart';
+import 'package:fixtures_web_scraping/features/fixtures/presentation/widgets/league_card.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
