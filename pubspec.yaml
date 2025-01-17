@@ -19,6 +19,7 @@ dependencies:
   flutter_native_splash: ^2.4.1
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.0.10+1
+  get_it: ^8.0.3
   html: ^0.15.4
   http: ^1.2.1
   intl: ^0.20.0
