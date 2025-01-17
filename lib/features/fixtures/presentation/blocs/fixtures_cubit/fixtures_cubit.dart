@@ -18,6 +18,7 @@ class FixturesCubit extends Cubit<FixturesState> {
       : super(FixturesLoadingState());
 
   Future<void> getFixtures({required String date, bool? updating}) async {
+    print('getting fixtures');
     updating == null
         ? emit(FixturesLoadingState())
         : emit(FixtureUpdateState(fixtures: fixtures));

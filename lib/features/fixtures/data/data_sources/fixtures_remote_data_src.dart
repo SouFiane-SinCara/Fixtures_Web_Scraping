@@ -22,6 +22,8 @@ class FixturesRemoteDataSourceWebScrapping extends FixturesRemoteDataSource {
 
   @override
   Future<List<Fixture>> getFixtures({required String date}) async {
+    try {
+      
     final internetConnectionResult = await connectivity.checkConnectivity();
 
     if (internetConnectionResult.first == ConnectivityResult.none) {
@@ -66,12 +68,17 @@ class FixturesRemoteDataSourceWebScrapping extends FixturesRemoteDataSource {
         throw ServerException();
       }
     }
+    } catch (e) {
+     print(e);
+      throw ServerException(); 
+    }
   }
 
   @override
   Future<FixtureDetails> getFixtureDetails(
       {required String fixtureDetailsUrl}) async {
-    final internetConnectionResult = await connectivity.checkConnectivity();
+    try {
+      final internetConnectionResult = await connectivity.checkConnectivity();
 
     if (internetConnectionResult.first == ConnectivityResult.none) {
       throw NoInternetConnectionException();
@@ -98,6 +105,10 @@ class FixturesRemoteDataSourceWebScrapping extends FixturesRemoteDataSource {
       } else {
         throw ServerException();
       }
+    }
+    } catch (e) {
+      print(e);
+      throw ServerException();
     }
   }
 }
