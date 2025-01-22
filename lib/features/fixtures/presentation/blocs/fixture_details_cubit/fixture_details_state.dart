@@ -1,28 +1,33 @@
-part of 'fixture_details_cubit.dart';
+import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture_details.dart';
 
-sealed class FixtureDetailsState extends Equatable {
-  const FixtureDetailsState();
+enum FixtureDetailsStatus { loading, loaded, error }
 
-  @override
-  List<Object> get props => [];
+extension FixtureDetailsStateX on FixtureDetailsStatus {
+  bool get isLoading => this == FixtureDetailsStatus.loading;
+  bool get isLoaded => this == FixtureDetailsStatus.loaded;
+  bool get isError => this == FixtureDetailsStatus.error;
 }
 
-final class FixtureDetailsLoading extends FixtureDetailsState {}
+class FixtureDetailsState {
+  final FixtureDetailsStatus status;
+  final FixtureDetails? fixtureDetails;
+  final String error;
 
-final class UpdateFixtureDetailsState extends FixtureDetailsState {
-  final FixtureDetails fixtureDetails;
+  const FixtureDetailsState({
+    this.status = FixtureDetailsStatus.loading,
+    this.fixtureDetails,
+    this.error = '',
+  });
 
-  const UpdateFixtureDetailsState({required this.fixtureDetails});
-}
-
-final class ErrorFixtureDetailsState extends FixtureDetailsState {
-  final String message;
-
-  const ErrorFixtureDetailsState({required this.message});
-}
-
-final class LoadedFixtureDetailsState extends FixtureDetailsState {
-  final FixtureDetails fixtureDetails;
-
-  const LoadedFixtureDetailsState({required this.fixtureDetails});
+  FixtureDetailsState copyWith({
+    FixtureDetailsStatus? status,
+    FixtureDetails? fixtureDetails,
+    String? error,
+  }) {
+    return FixtureDetailsState(
+      status: status ?? this.status,
+      fixtureDetails: fixtureDetails ?? this.fixtureDetails,
+      error: error ?? this.error,
+    );
+  }
 }

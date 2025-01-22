@@ -1,66 +1,35 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
-import 'package:equatable/equatable.dart';
-import 'package:fixtures_web_scraping/core/constants/web_const.dart';
-import 'package:fixtures_web_scraping/core/failures/failures.dart';
-import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture_details.dart';
 import 'package:fixtures_web_scraping/features/fixtures/domain/use_cases/get_fixture_details_use_case.dart';
-
-part 'fixture_details_state.dart';
+import 'package:fixtures_web_scraping/features/fixtures/presentation/blocs/fixture_details_cubit/fixture_details_state.dart';
 
 class FixtureDetailsCubit extends Cubit<FixtureDetailsState> {
   GetFixtureDetailsUseCase getFixtureDetailsUseCase;
-  FixtureDetails? fixtureDetails;
-  Timer? _timer;
-  bool stillUpdating = true;
+
   FixtureDetailsCubit({required this.getFixtureDetailsUseCase})
-      : super(FixtureDetailsLoading());
+      : super(FixtureDetailsState());
 
-  Future<void> getFixtureDetails(
-      {required String fixtureDetailsUrl, bool? updating}) async {
-    updating == null
-        ? emit(FixtureDetailsLoading())
-        : emit(UpdateFixtureDetailsState(fixtureDetails: fixtureDetails!));
-    updating == null ? stillUpdating = true : null;
-    if (!stillUpdating) {
-      _timer!.cancel();
-      return;
-    }
-    Either<Failure, FixtureDetails> result =
-        await getFixtureDetailsUseCase(fixtureDetailsUrl: fixtureDetailsUrl);
-    result.fold(
-      (fail) {
-        emit(ErrorFixtureDetailsState(message: fail.message));
-      },
-      (fixtureDetails) {
-        this.fixtureDetails = fixtureDetails;
-        emit(LoadedFixtureDetailsState(fixtureDetails: fixtureDetails));
-      },
-    );
+  Future<void> getFixtureDetails({required String fixtureDetailsUrl}) async {
+    emit(state.copyWith(
+      status: FixtureDetailsStatus.loading,
+    ));
 
-    startRecurringFixtureDetails(fixtureDetailsUrl: fixtureDetailsUrl);
-  }
-
-  void stopUpdating() {
-    stillUpdating = false;
-  }
-
-  void startRecurringFixtureDetails({required String fixtureDetailsUrl}) {
-    _timer?.cancel();
-    _timer = Timer.periodic(const Duration(seconds: fixturesDelay), (timer) {
-      getFixtureDetails(fixtureDetailsUrl: fixtureDetailsUrl, updating: true);
+    getFixtureDetailsUseCase(fixtureDetailsUrl: fixtureDetailsUrl)
+        .then((response) {
+      response.fold(
+        (failure) {
+          emit(state.copyWith(
+            status: FixtureDetailsStatus.error,
+            error: failure.message,
+          ));
+        },
+        (fixtureDetails) {
+          emit(state.copyWith(
+            status: FixtureDetailsStatus.loaded,
+            fixtureDetails: fixtureDetails,
+          ));
+        },
+      );
     });
-  }
-
-  void stopRecurringFixtureDetails() {
-    _timer?.cancel();
-  }
-
-  @override
-  Future<void> close() {
-    _timer?.cancel();
-    return super.close();
   }
 }

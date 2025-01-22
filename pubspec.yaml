@@ -9,6 +9,7 @@ environment:
 dependencies:
   auto_size_text: ^3.0.0
   bloc: ^8.1.4
+  cached_network_image: ^3.4.1
   connectivity_plus: ^6.0.3
   cupertino_icons: ^1.0.6
   dartz: ^0.10.1
@@ -19,10 +20,12 @@ dependencies:
   flutter_native_splash: ^2.4.1
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.0.10+1
+  get_it: ^8.0.3
   html: ^0.15.4
   http: ^1.2.1
   intl: ^0.20.0
   mockito: ^5.4.4
+  skeletonizer: ^1.4.3
 
 dev_dependencies:
   build_runner: ^2.4.9

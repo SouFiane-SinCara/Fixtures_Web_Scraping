@@ -36,7 +36,37 @@ class FixtureDetails extends Equatable {
     required this.awayTeam,
     required this.awayScore,
   });
-
+  factory FixtureDetails.empty() {
+    return FixtureDetails(
+      leagueName: 'premier league',
+      matchTime: '20:00',
+      kickOff: '20:00',
+      stadium: 'arsenal stadium',
+      tvGuide: 'sky sports',
+      statistics: [
+        Statistic(
+            statisticName: 'possession',
+            homeStatistic: '20%',
+            awayStatistic: '80%'),
+        Statistic(
+            statisticName: 'Total shots',
+            homeStatistic: '7',
+            awayStatistic: '11'),
+        Statistic(
+            statisticName: 'shots on target',
+            homeStatistic: '2',
+            awayStatistic: '5'),
+      ],
+      homeTeamLastFixtures: List.generate(4, (index) => Fixture.empty()),
+      awayTeamLastFixtures: List.generate(4, (index) => Fixture.empty()),
+      standings: [],
+      knockout: [],
+      homeTeam: Team(name: 'arsenal', imageUrl: ''),
+      homeScore: '0',
+      awayTeam: Team(name: 'Man united', imageUrl: ''),
+      awayScore: '1',
+    );
+  }
   @override
   List<Object?> get props => [
         leagueName,

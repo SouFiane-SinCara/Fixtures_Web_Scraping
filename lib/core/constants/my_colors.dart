@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MyColors {
   static const Color black1 = Color(0xFF222232);
@@ -18,4 +18,11 @@ class MyColors {
   );
   static const Color white = Colors.white;
   static const Color blue = Color(0xFF246BFD);
+  static const PaintingEffect loadingEffect = ShimmerEffect(
+    baseColor: MyColors.black1,
+    highlightColor: MyColors.white,
+    duration: Duration(seconds: 2),
+    begin: Alignment(-1.0, -1.0),
+    end: Alignment(1.0, 1.0),
+  );
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fixtures_web_scraping/core/constants/my_colors.dart';
 import 'package:fixtures_web_scraping/core/constants/my_text_style.dart';
 import 'package:fixtures_web_scraping/core/helpers/spaces.dart';
@@ -80,9 +81,18 @@ class FixtureCard extends StatelessWidget {
               color: MyColors.black1,
               border: Border.all(color: MyColors.black3, width: 2),
             ),
-            child: Image.network(
-              logo,
-            ),
+            child: logo == ''
+                ? null
+                : CachedNetworkImage(
+                    imageUrl: logo,
+                    placeholder: (context, url) => Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: MyColors.black1,
+                        border: Border.all(color: MyColors.black3, width: 2),
+                      ),
+                    ),
+                  ),
           ),
         ),
         heightBox(5),
