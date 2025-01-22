@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="fixtures_web_scraping"
+        android:label="OnPitch"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
