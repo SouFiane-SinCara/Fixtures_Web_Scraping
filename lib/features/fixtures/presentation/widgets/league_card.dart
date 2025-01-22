@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fixtures_web_scraping/core/constants/my_colors.dart';
 import 'package:fixtures_web_scraping/core/constants/my_text_style.dart';
 import 'package:fixtures_web_scraping/core/helpers/spaces.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +22,22 @@ class LeagueCard extends StatelessWidget {
             width: 35.w,
             height: 35.h,
             decoration: BoxDecoration(
-                image: DecorationImage(
-              image: NetworkImage(leagueImg),
-            )),
+              shape: BoxShape.circle,
+              color: MyColors.black1,
+              border: Border.all(color: MyColors.black3, width: 2),
+            ),
+            child: leagueImg == ''
+                ? null
+                : CachedNetworkImage(
+                    imageUrl: leagueImg,
+                    placeholder: (context, url) => Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: MyColors.black1,
+                        border: Border.all(color: MyColors.black3, width: 2),
+                      ),
+                    ),
+                  ),
           ),
           widthBox(10),
           FittedBox(

@@ -6,7 +6,6 @@ import 'package:fixtures_web_scraping/features/fixtures/domain/use_cases/get_fix
 import 'package:fixtures_web_scraping/features/fixtures/domain/use_cases/get_fixtures_use_case.dart';
 import 'package:fixtures_web_scraping/features/fixtures/presentation/blocs/date_selection_cubit/date_selection_cubit.dart';
 import 'package:fixtures_web_scraping/features/fixtures/presentation/blocs/fixture_details_cubit/fixture_details_cubit.dart';
-import 'package:fixtures_web_scraping/features/fixtures/presentation/blocs/fixture_search_cubit/fixture_search_cubit.dart';
 import 'package:fixtures_web_scraping/features/fixtures/presentation/blocs/fixtures_cubit/fixtures_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -18,7 +17,6 @@ void init() {
   sl.registerFactory(() => FixturesCubit(getFixturesUseCase: sl()));
   sl.registerFactory(() => FixtureDetailsCubit(getFixtureDetailsUseCase: sl()));
   sl.registerFactory(() => DateSelectionCubit());
-  sl.registerFactory(() => FixtureSearchCubit());
 
   // Use cases
   sl.registerLazySingleton(() => GetFixturesUseCase(fixturesRepository: sl()));

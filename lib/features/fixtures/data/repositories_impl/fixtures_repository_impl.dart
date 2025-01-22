@@ -2,7 +2,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:fixtures_web_scraping/core/exceptions/exceptions.dart';
 import 'package:fixtures_web_scraping/core/failures/failures.dart';
-import 'package:fixtures_web_scraping/core/helpers/data_types.dart';
 import 'package:fixtures_web_scraping/features/fixtures/data/data_sources/fixtures_remote_data_src.dart';
 import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture.dart';
 import 'package:fixtures_web_scraping/features/fixtures/domain/entities/fixture_details.dart';
@@ -13,8 +12,10 @@ class FixturesRepositoryImpl extends FixturesRepository {
   FixturesRepositoryImpl({
     required this.fixturesRemoteDataSource,
   });
+
   @override
-  FutureEither<List<Fixture>> getFixtures({required String date}) async {
+  Future<Either<Failure, List<Fixture>>> getFixtures(
+      {required String date}) async {
     try {
       List<Fixture> fixtures =
           await fixturesRemoteDataSource.getFixtures(date: date);
@@ -29,7 +30,7 @@ class FixturesRepositoryImpl extends FixturesRepository {
   }
 
   @override
-  FutureEither<FixtureDetails> getFixtureDetails(
+  Future<Either<Failure, FixtureDetails>> getFixtureDetails(
       {required String fixtureDetailsUrl}) async {
     try {
       FixtureDetails fixtureDetails = await fixturesRemoteDataSource

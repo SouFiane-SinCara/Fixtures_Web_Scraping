@@ -24,6 +24,23 @@ class Fixture extends Equatable {
       required this.awayTeamLogo,
       required this.awayScore,
       required this.moreInfoLink});
+  // empty fixture as contractor
+
+  factory Fixture.empty() {
+    return Fixture(
+        homeTeamName: 'man united',
+        homeTeamLogo: '',
+        homeScore: '',
+        time: '20:00',
+        league: 'champions league',
+        leagueLogo: '',
+        date: '2021-10-10',
+        awayTeamName: 'real madrid',
+        awayTeamLogo: '',
+        awayScore: '',
+        moreInfoLink: '');
+  }
+
   String printDetails() {
     return '''
       homeTeamName: $homeTeamName

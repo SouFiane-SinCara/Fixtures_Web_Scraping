@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fixtures_web_scraping/core/constants/my_colors.dart';
 import 'package:fixtures_web_scraping/core/constants/my_text_style.dart';
 import 'package:fixtures_web_scraping/core/helpers/spaces.dart';
@@ -17,16 +18,18 @@ class TeamLogoNameCard extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 100.w,
-          height: 60.h,
+          width: teamLogo == '' ? 40.w : 50.w,
+          height: teamLogo == '' ? 40.h : 50.h,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: MyColors.black1,
             border: Border.all(color: MyColors.black3, width: 2),
           ),
-          child: Image.network(
-            teamLogo,
-          ),
+          child: teamLogo == ''
+              ? null
+              : CachedNetworkImage(
+                  imageUrl: teamLogo,
+                ),
         ),
         heightBox(10),
         Container(
