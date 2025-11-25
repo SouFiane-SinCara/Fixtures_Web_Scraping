@@ -1,4 +1,2 @@
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"
 #include "Generated.xcconfig"
-
-// ...existing code...
-FLUTTER_BUILD_MODE=--no-enable-impeller
